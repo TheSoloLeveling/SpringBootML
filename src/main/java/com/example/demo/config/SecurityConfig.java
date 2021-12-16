@@ -18,8 +18,7 @@ import java.util.concurrent.TimeUnit;
 import static com.example.demo.config.ApplicationUserRole.*;
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
@@ -32,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.applicationUserService = applicationUserService;
     }
 
+    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -40,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.and()
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-                .antMatchers("/api/**").hasRole(PRESIDENT.name())
+               
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -54,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21))
                     .key("securedkey")
                     .rememberMeParameter("remember-me")
+                    .userDetailsService(applicationUserService)
                 .and()
                 .logout()
                     .logoutUrl("/logout")

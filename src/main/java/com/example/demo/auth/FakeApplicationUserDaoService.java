@@ -39,16 +39,7 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao {
                       true,
                       true,
                       true
-              ),
-                new ApplicationUser(
-                        "Ilyas",
-                        passwordEncoder.encode("password"),
-                        REFERENT.getGrantedAuthorities(),
-                        true,
-                        true,
-                        true,
-                        true
-                )
+              )
         );
         return applicationUsers;
     }
