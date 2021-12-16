@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29a2e669-519e-4260-bc3c-56587402857f" name="Changes" comment="" />
+    <list default="true" id="29a2e669-519e-4260-bc3c-56587402857f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/User.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,9 +17,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="JUnit5 Test Class" />
         <option value="Enum" />
+        <option value="HTML File" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -57,6 +62,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="postgresql" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
@@ -78,6 +84,7 @@
       <recent name="" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.example.demo.config" />
       <recent name="com.example.demo" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
@@ -90,6 +97,17 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GesClubApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="GesClub" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.demo.GesClubApplication" />
@@ -141,6 +159,10 @@
       <workItem from="1639400619810" duration="1323000" />
       <workItem from="1639433193904" duration="2111000" />
       <workItem from="1639491821551" duration="2779000" />
+      <workItem from="1639577155496" duration="803000" />
+      <workItem from="1639587184191" duration="9578000" />
+      <workItem from="1639603584969" duration="1594000" />
+      <workItem from="1639630416114" duration="7034000" />
     </task>
     <servers />
   </component>
