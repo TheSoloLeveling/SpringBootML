@@ -14,6 +14,6 @@ public class LoginController {
 
     @GetMapping("/main")
     public String getMain() {
-        return "main";
+        return "Landing";
     }
 }
