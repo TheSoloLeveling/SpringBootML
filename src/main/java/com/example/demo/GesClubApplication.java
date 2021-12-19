@@ -9,11 +9,13 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+
 import java.sql.Date;
 import java.sql.Timestamp;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackageClasses = UserRepository.class)
+
 @ComponentScan({"com.example.demo.*"})
 public class GesClubApplication {
 

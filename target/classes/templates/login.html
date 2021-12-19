@@ -16,8 +16,11 @@
 </head>
 <body>
 <div class="container">
+    <a class="btn btn-lg btn-primary btn-block" href="/oauth2/authorization/google">Sign in with Google</a>
+    <a class="btn btn-lg btn-primary btn-block" href="/oauth2/authorization/facebook">Sign in with Facebook</a>
     <form class="form-signin" method="post" action="/login">
         <h2 class="form-signin-heading">Please sign in</h2>
+
         <p>
             <label for="username" class="sr-only">Username</label>
             <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="" autofocus="">
@@ -31,6 +34,7 @@
             <input type="checkbox" id="remember-me" name="remember-me" class="form-control">
         </p>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
     </form>
 </div>
 </body>

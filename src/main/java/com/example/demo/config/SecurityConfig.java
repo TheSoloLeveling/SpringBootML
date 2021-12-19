@@ -1,6 +1,8 @@
 package com.example.demo.config;
 
 import com.example.demo.auth.ApplicationUserService;
+import com.example.demo.auth.CustomerOAuth2UserService;
+import com.example.demo.auth.OAuth2LoginSuccessHandler;
 import com.example.demo.jwt.JwtConfig;
 import com.example.demo.jwt.JwtTokenVerifier;
 import com.example.demo.jwt.JwtUsernameAndPasswordAuthenticationFilter;
@@ -54,9 +56,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/**", "/js/**").permitAll()
                 .antMatchers("/api/club").permitAll()
-
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+                .and()
+                .oauth2Login()
+                .loginPage("/login").permitAll()
+                .userInfoEndpoint()
+                .userService(oAuth2UserService)
+                .and()
+                .successHandler(oAuth2LoginSuccessHandler)
+                .and()
+                .logout().permitAll();
 
 
     }
@@ -73,5 +83,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(applicationUserService);
         return provider;
     }
+
+    @Autowired
+    private CustomerOAuth2UserService oAuth2UserService;
+
+    @Autowired
+    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
 }
