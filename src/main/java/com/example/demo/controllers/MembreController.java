@@ -1,31 +1,34 @@
 package com.example.demo.controllers;
 
-import com.example.demo.entities.Affiliation;
 import com.example.demo.entities.Membre;
-import com.example.demo.services.AffiliationService;
 import com.example.demo.services.MembreService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Optional;
 
-
+@CrossOrigin("*")
 @RestController
-@RequestMapping(path = "api/membre")
+@RequestMapping(path = "api/memberService")
 public class MembreController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MembreController.class);
 
     @Autowired
     MembreService membreService;
 
-    @GetMapping
-    public List<Membre> showActivities(){
-        return membreService.showActivite();
+    @PostMapping("/save")
+    public Membre saveUserMetaData(@RequestBody Membre user) {
+        return membreService.submitMetaDataOfUser(user);
+    }
+
+    @GetMapping("/getUserDetails")
+    public ArrayList<Membre> getAllUserDetails() {
+        return membreService.retrieveAllUserDetails();
+    }
+
+    @GetMapping("/getAllUsers/{idMembre}")
+    public Optional<Membre> getUserDetail(@PathVariable("idMembre") String userID) {
+        return membreService.getUserData(userID);
     }
 
 

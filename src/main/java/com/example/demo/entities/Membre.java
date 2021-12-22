@@ -12,6 +12,7 @@ public class Membre {
     private String nom;
     private boolean status;
     private Date dateCon;
+    private Date dateCre;
     private String pdpMembre;
 
     @ManyToMany
@@ -55,5 +56,49 @@ public class Membre {
 
     public List<Fonctionnalite> getFonctionnalites() {
         return fonctionnalites;
+    }
+
+    public Date getDateCre() {
+        return dateCre;
+    }
+
+    public void setDateCre(Date dateCre) {
+        this.dateCre = dateCre;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setIdMembre(String idMembre) {
+        this.idMembre = idMembre;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public void setDateCon(Date dateCon) {
+        this.dateCon = dateCon;
+    }
+
+    public void setPdpMembre(String pdpMembre) {
+        this.pdpMembre = pdpMembre;
+    }
+
+    public void setClubs(List<Club> clubs) {
+        this.clubs = clubs;
+    }
+
+    public void setGroupe(Groupe groupe) {
+        this.groupe = groupe;
+    }
+
+    public void setFonctionnalites(List<Fonctionnalite> fonctionnalites) {
+        this.fonctionnalites = fonctionnalites;
     }
 }
