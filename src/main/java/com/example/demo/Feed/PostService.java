@@ -1,12 +1,13 @@
 package com.example.demo.Feed;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -42,10 +43,11 @@ public class PostService {
         return result;
     }
 
-    public Optional<Post> findPostById(UUID postID) {
-        postRepository.deleteById(postID);
-
-        return postRepository.findById(postID);
+    public ResponseEntity<Post> findPostById(UUID postID) {
+        Post post = postRepository.findById(postID)
+                .orElseThrow( () -> new ResourceNotFoundException("Post with id " + postID + " not found"));
+        System.out.println(postID);
+        return ResponseEntity.ok().body(post);
 
     }
 }

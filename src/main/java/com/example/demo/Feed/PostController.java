@@ -1,10 +1,10 @@
 package com.example.demo.Feed;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -35,7 +35,7 @@ public class PostController {
     }
 
     @GetMapping("/getPost/{postID}")
-    public Optional<Post> retrieveAllPost(UUID postID){
+    public ResponseEntity<Post> retrieveAllPost(UUID postID){
         return postService.findPostById(postID);
     }
 }
