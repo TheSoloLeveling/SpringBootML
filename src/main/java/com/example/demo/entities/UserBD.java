@@ -3,24 +3,48 @@ package com.example.demo.entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "UserBD")
+@Table(name = "userBD",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "userName")
+        })
 public class UserBD {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @NotBlank
+    @Size(max = 20)
     private String userName;
+
+    @NotBlank
+    @Size(max = 120)
     private String password;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(  name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
     private boolean isEnabled;
-    private String roles;
     private boolean isAccountNonLocked;
     private boolean isAccountNonExpired;
     private boolean CredentialsNonExpired;
 
+    public UserBD() {
+    }
+
+    public UserBD(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
 
     public boolean isIsAccountNonLocked() {
         return isAccountNonLocked;
@@ -34,7 +58,7 @@ public class UserBD {
         return CredentialsNonExpired;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -50,11 +74,39 @@ public class UserBD {
         return isEnabled;
     }
 
-    public String getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setId(int id) {
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        isAccountNonLocked = accountNonLocked;
+    }
+
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        isAccountNonExpired = accountNonExpired;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public boolean isAccountNonLocked() {
+        return isAccountNonLocked;
+    }
+
+    public boolean isAccountNonExpired() {
+        return isAccountNonExpired;
+    }
+
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -68,10 +120,6 @@ public class UserBD {
 
     public void setIsEnabled(boolean active) {
         this.isEnabled = active;
-    }
-
-    public void setRoles(String roles) {
-        this.roles = roles;
     }
 
     public void setIsAccountNonLocked(boolean locked) {
