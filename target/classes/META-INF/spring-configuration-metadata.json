@@ -1,0 +1,11 @@
+{
+  "groups": [],
+  "properties": [
+    {
+      "name": "jwtSecret",
+      "type": "java.lang.String",
+      "description": "Description for jwtSecret."
+    }
+  ],
+  "hints": []
+}

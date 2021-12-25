@@ -1,19 +1,25 @@
 package com.example.demo.auth;
 
+import com.example.demo.controllers.AuthController;
 import com.example.demo.entities.UserBD;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Component
 public class UserDetailsImpl implements UserDetails {
 
     private static final long serialVersionUID = 1L;
+    private static PasswordEncoder encoder;
 
     private Long id;
 
@@ -22,7 +28,16 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
 
+
+    @Autowired
+    public  UserDetailsImpl(PasswordEncoder encoder) {
+        UserDetailsImpl.encoder = encoder;
+    }
+
     private Collection<? extends GrantedAuthority> authorities;
+
+    public UserDetailsImpl() {
+    }
 
     public UserDetailsImpl(Long id, String username, String password,
                            Collection<? extends GrantedAuthority> authorities) {
@@ -40,7 +55,7 @@ public class UserDetailsImpl implements UserDetails {
         return new UserDetailsImpl(
                 user.getId(),
                 user.getUserName(),
-                user.getPassword(),
+                encoder.encode(user.getPassword()),
                 authorities);
     }
 

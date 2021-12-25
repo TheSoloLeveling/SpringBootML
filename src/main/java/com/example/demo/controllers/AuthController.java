@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.example.demo.auth.*;
+import com.example.demo.entities.Club;
 import com.example.demo.entities.ERole;
 import com.example.demo.entities.Role;
 import com.example.demo.entities.UserBD;
@@ -21,11 +23,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
 @RestController
@@ -46,9 +44,15 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    @GetMapping(path = "/users")
+    public List<UserBD> getUsers(){
+        return userRepository.findAll();
+    }
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
+        //boolean isPasswordMatch = encoder.matches(login, encodedPassword);
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -73,16 +77,49 @@ public class AuthController {
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
+        System.out.println("data register roles : " + signUpRequest.getRole());
 
         // Create new user's account
         UserBD user = new UserBD(signUpRequest.getUsername(),
-                encoder.encode(signUpRequest.getPassword()));
+                signUpRequest.getPassword());
+
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
+        //ROLE_USER_INTERNAL,
+        //    ROLE_USER_EXTERNAL,
+        //    ROLE_ADMIN
+
+        switch (signUpRequest.getUserRole()) {
+            case "Etudiant exterieur": {
+                Role userRole = roleRepository.findByName(ERole.ROLE_USER_EXTERNAL)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
+                break;
+            }
+            case "Etudiant UIR": {
+                Role userRole = roleRepository.findByName(ERole.ROLE_USER_INTERNAL)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
+                break;
+            }
+            case "Administrateur": {
+                Role userRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
+                break;
+            }
+            default: {
+                Role userRole = roleRepository.findByName(ERole.ROLE_USER_EXTERNAL)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
+            }
+        }
+
+        /*
         if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+            Role userRole = roleRepository.findByName(ERole.)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
@@ -108,7 +145,11 @@ public class AuthController {
             });
         }
 
+         */
+
         user.setRoles(roles);
+
+
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

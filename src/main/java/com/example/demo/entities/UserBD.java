@@ -16,7 +16,7 @@ import java.util.Set;
 public class UserBD {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotBlank
@@ -44,6 +44,12 @@ public class UserBD {
     public UserBD(String userName, String password) {
         this.userName = userName;
         this.password = password;
+    }
+
+    public UserBD(String userName, String password, Set<Role> roles) {
+        this.userName = userName;
+        this.password = password;
+        this.roles = roles;
     }
 
     public boolean isIsAccountNonLocked() {
