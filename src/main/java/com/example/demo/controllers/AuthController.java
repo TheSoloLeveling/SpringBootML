@@ -77,45 +77,52 @@ public class AuthController {
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
-        System.out.println("data register roles : " + signUpRequest.getRole());
+        System.out.println("Request username : " + signUpRequest.getUsername());
+        System.out.println("Request password: " + signUpRequest.getPassword());
+        System.out.println("Request role: " + signUpRequest.getUserRole());
 
         // Create new user's account
         UserBD user = new UserBD(signUpRequest.getUsername(),
                 signUpRequest.getPassword());
 
-
-        Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
         //ROLE_USER_INTERNAL,
         //    ROLE_USER_EXTERNAL,
         //    ROLE_ADMIN
-
-        switch (signUpRequest.getUserRole()) {
-            case "Etudiant exterieur": {
-                Role userRole = roleRepository.findByName(ERole.ROLE_USER_EXTERNAL)
-                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                roles.add(userRole);
-                break;
-            }
-            case "Etudiant UIR": {
-                Role userRole = roleRepository.findByName(ERole.ROLE_USER_INTERNAL)
-                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                roles.add(userRole);
-                break;
-            }
-            case "Administrateur": {
-                Role userRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                roles.add(userRole);
-                break;
-            }
-            default: {
-                Role userRole = roleRepository.findByName(ERole.ROLE_USER_EXTERNAL)
-                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                roles.add(userRole);
+        if (signUpRequest.getUserRole() == null){
+            Role userRole = roleRepository.findByName(ERole.ROLE_USER_EXTERNAL)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+        }
+        else {
+            switch (signUpRequest.getUserRole()) {
+                case "Etudiant exterieur": {
+                    Role userRole = roleRepository.findByName(ERole.ROLE_USER_EXTERNAL)
+                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    roles.add(userRole);
+                    break;
+                }
+                case "Etudiant UIR": {
+                    Role userRole = roleRepository.findByName(ERole.ROLE_USER_INTERNAL)
+                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    roles.add(userRole);
+                    break;
+                }
+                case "Administrateur": {
+                    Role userRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    roles.add(userRole);
+                    break;
+                }
+                default: {
+                    Role userRole = roleRepository.findByName(ERole.ROLE_USER_EXTERNAL)
+                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    roles.add(userRole);
+                }
             }
         }
+
 
         /*
         if (strRoles == null) {
@@ -147,7 +154,7 @@ public class AuthController {
 
          */
 
-        user.setRoles(roles);
+
 
 
         userRepository.save(user);

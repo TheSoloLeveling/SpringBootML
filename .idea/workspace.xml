@@ -7,11 +7,7 @@
     <list default="true" id="29a2e669-519e-4260-bc3c-56587402857f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/auth/SignupRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/auth/SignupRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/auth/UserDetailsImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/auth/UserDetailsImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/auth/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/auth/UserDetailsServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/ERole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/ERole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/Role.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/UserBD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/UserBD.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -192,6 +188,8 @@
       <workItem from="1640386507648" duration="7149000" />
       <workItem from="1640400713933" duration="6872000" />
       <workItem from="1640434915536" duration="4793000" />
+      <workItem from="1640451141853" duration="3647000" />
+      <workItem from="1640632932853" duration="6658000" />
     </task>
     <servers />
   </component>
@@ -320,6 +318,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/Feed/PostService.java</url>
           <line>46</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/controllers/AuthController.java</url>
+          <line>84</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
