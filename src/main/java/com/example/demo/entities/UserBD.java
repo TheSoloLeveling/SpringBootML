@@ -27,11 +27,21 @@ public class UserBD {
     @Size(max = 120)
     private String password;
 
+    private String icon = "";
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(  name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 
     private boolean isEnabled;
     private boolean isAccountNonLocked;
@@ -39,11 +49,6 @@ public class UserBD {
     private boolean CredentialsNonExpired;
 
     public UserBD() {
-    }
-
-    public UserBD(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
     }
 
     public UserBD(String userName, Set<Role> roles, String password) {
@@ -138,5 +143,20 @@ public class UserBD {
 
     public void setCredentialsNonExpired(boolean credentialsNonExpired) {
         CredentialsNonExpired = credentialsNonExpired;
+    }
+
+    @Override
+    public String toString() {
+        return "UserBD{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", icon='" + icon + '\'' +
+                ", roles=" + roles +
+                ", isEnabled=" + isEnabled +
+                ", isAccountNonLocked=" + isAccountNonLocked +
+                ", isAccountNonExpired=" + isAccountNonExpired +
+                ", CredentialsNonExpired=" + CredentialsNonExpired +
+                '}';
     }
 }
