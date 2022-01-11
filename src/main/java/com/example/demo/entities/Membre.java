@@ -15,6 +15,9 @@ public class Membre {
     private Date dateCre;
     private String pdpMembre;
 
+
+    private Long idUser;
+
     @ManyToMany
     @JoinTable(
             name = "MembreClub",

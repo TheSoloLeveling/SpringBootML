@@ -35,6 +35,7 @@ public class AuthController {
     @Autowired
     UserBDRepository userRepository;
 
+
     @Autowired
     RoleRepository roleRepository;
 
@@ -64,10 +65,13 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
+        String icon = userRepository.findByuserName(loginRequest.getUsername()).get().getIcon().get();
+
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
-                roles));
+                roles,
+                icon));
     }
 
     @PostMapping("/signup")

@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Entity
@@ -28,13 +29,22 @@ public class UserBD {
     private String password;
 
     private String icon = "";
+    private String cover = "";
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    public  Optional<String> getCover() {
+        return Optional.ofNullable(cover);
+    }
 
     public void setIcon(String icon) {
         this.icon = icon;
     }
 
-    public String getIcon() {
-        return icon;
+    public Optional<String> getIcon() {
+        return Optional.ofNullable(icon);
     }
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -49,6 +59,13 @@ public class UserBD {
     private boolean CredentialsNonExpired;
 
     public UserBD() {
+    }
+
+    public UserBD(String userName, Set<Role> roles, String password, String icon) {
+        this.userName = userName;
+        this.password = password;
+        this.roles = roles;
+        this.icon = icon;
     }
 
     public UserBD(String userName, Set<Role> roles, String password) {

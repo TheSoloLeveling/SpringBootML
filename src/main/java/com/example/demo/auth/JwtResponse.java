@@ -8,12 +8,22 @@ public class JwtResponse {
     private Long id;
     private String username;
     private List<String> roles;
+    private String icon;
 
-    public JwtResponse(String accessToken, Long id, String username, List<String> roles) {
+    public JwtResponse(String accessToken, Long id, String username, List<String> roles, String icon) {
         this.token = accessToken;
         this.id = id;
         this.username = username;
         this.roles = roles;
+        this.icon = icon;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public String getAccessToken() {
