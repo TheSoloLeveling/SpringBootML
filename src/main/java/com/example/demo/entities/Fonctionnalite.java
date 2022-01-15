@@ -6,29 +6,45 @@ import java.util.List;
 @Entity
 public class Fonctionnalite {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private String idFonct;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Integer idFonct;
 
-    private String nomFonct;
-    private String descFonct;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private EFonction name;
 
-    @ManyToMany
+    public Fonctionnalite(EFonction name) {
+        this.name = name;
+    }
+
+    public Fonctionnalite() {
+    }
+
+    /*@ManyToMany
     @JoinTable(
             name = "MembreClub",
             joinColumns = @JoinColumn(name = "fonctionnalite_id"),
             inverseJoinColumns = @JoinColumn(name = "membre_id")
     )
-    private List<Membre> membres;
+    private List<Membre> membres;*/
 
-    public String getIdFonct() {
+    public Integer getIdFonct() {
         return idFonct;
     }
 
-    public String getNomFonct() {
-        return nomFonct;
+    public void setName(EFonction name) {
+        this.name = name;
     }
 
-    public String getDescFonct() {
-        return descFonct;
+    public EFonction getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Fonctionnalite{" +
+                "idFonct=" + idFonct +
+                ", name=" + name +
+                '}';
     }
 }

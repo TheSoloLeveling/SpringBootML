@@ -17,8 +17,8 @@ public class MembreController {
     MembreService membreService;
 
     @PostMapping("/save")
-    public Membre saveUserMetaData(@RequestBody Membre user) {
-        return membreService.submitMetaDataOfUser(user);
+    public Membre saveUserMetaData(@RequestBody Membre user, String nomClub) {
+        return membreService.submitMetaDataOfUser(user, nomClub);
     }
 
     @GetMapping("/getUserDetails")

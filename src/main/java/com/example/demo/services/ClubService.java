@@ -97,7 +97,7 @@ public class ClubService {
     @RequestMapping(value = "/{name}", method = RequestMethod.GET)
     public ResponseEntity<Club> getClubBynomClub(@RequestParam String nomClub) throws ResourceNotFoundException {
         Club club = clubRepository.findByNomClub(nomClub)
-                .orElseThrow( () -> new ResourceNotFoundException("Club with id " + nomClub + " not found"));
+                .orElseThrow( () -> new ResourceNotFoundException("Club with name" + nomClub + " not found"));
 
         return ResponseEntity.ok().body(club);
     }

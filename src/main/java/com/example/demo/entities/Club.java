@@ -1,11 +1,13 @@
 package com.example.demo.entities;
 
+import com.example.demo.repositories.FonctionnaliteRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.boot.context.properties.bind.Name;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,16 +55,15 @@ public class Club {
     @JoinColumn(name="referent_id")
     private Referent referent;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "clubs")
-    private List<Membre> membres;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "club")
+    private LinkedList<Membre> membres;
 
     public Club() {
 
     }
 
 
-    public Club(String idClub, String nomClub, String descClub, Date dateCre, boolean status, String logo, String coverImg, List<Activite> activites) {
+    public Club(String idClub, String nomClub, String descClub, Date dateCre, boolean status, String logo, String coverImg) {
         this.idClub = idClub;
         this.nomClub = nomClub;
         this.descClub = descClub;
@@ -70,7 +71,20 @@ public class Club {
         this.status = status;
         this.logo = logo;
         this.coverImg = coverImg;
-        this.activites = activites;
+    }
+
+    public Membre findMember(EFonction e){
+
+        Fonctionnalite f = new Fonctionnalite(e);
+
+        for(int i = 0; i < membres.size(); i++){
+            if (membres.get(i).getFonctionnalites().contains(f)){
+                System.out.println("Member with function : " + e.name() +" is found");
+                return membres.get(i);
+            }
+        }
+        System.out.println(" Error: Member with function : " + e.name() + " not found");
+        return null;
     }
 
     public void setIdClub(String idClub) {
@@ -130,7 +144,7 @@ public class Club {
         this.referent = referent;
     }
 
-    public void setMembres(List<Membre> membres) {
+    public void setMembres(LinkedList<Membre> membres) {
         this.membres = membres;
     }
 
@@ -188,7 +202,7 @@ public class Club {
         return referent;
     }
 
-    public List<Membre> getMembres() {
+    public LinkedList<Membre> getMembres() {
         return membres;
     }
 }

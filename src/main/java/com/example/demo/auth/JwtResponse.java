@@ -9,13 +9,32 @@ public class JwtResponse {
     private String username;
     private List<String> roles;
     private String icon;
+    private String name;
+    private String email;
 
-    public JwtResponse(String accessToken, Long id, String username, List<String> roles, String icon) {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public JwtResponse(String accessToken, Long id, String username, List<String> roles, String name, String email) {
         this.token = accessToken;
         this.id = id;
         this.username = username;
         this.roles = roles;
-        this.icon = icon;
+        this.email = email;
+        this.name = name;
     }
 
     public String getIcon() {
