@@ -1,6 +1,8 @@
 package com.example.demo.services;
 
 
+import com.example.demo.entities.Membre;
+import com.example.demo.entities.Referent;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.filestore.FileStore;
 import com.example.demo.bucket.BucketName;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
 
 import static org.apache.http.entity.ContentType.*;
@@ -80,8 +83,25 @@ public class ClubService {
         return clubRepository.findAll();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public Club createClub(@RequestBody Club club){
+    public Club createClub(Club club,String referent, Membre president, Membre vicePresident, Membre tresorier, Membre secretaire){
+        Date date=new Date();
+        long time=date.getTime();
+        Timestamp dateTime=new Timestamp(time);
+
+        club.setStatus(false);
+        club.setDateCre(dateTime);
+
+        LinkedList<Membre> m = new LinkedList<>();
+        m.add(president);
+        m.add(vicePresident);
+        m.add(tresorier);
+        m.add(secretaire);
+
+
+        Referent r = new Referent(referent);
+        club.setReferent(r);
+        club.setMembres(m);
+
         return clubRepository.save(club);
     }
 

@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.entities.Affiliation;
 import com.example.demo.entities.Club;
+import com.example.demo.entities.Membre;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.services.AffiliationService;
 import com.example.demo.services.ClubService;
@@ -20,7 +21,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping(path = "/api")
+@RequestMapping(path = "/api/clubService/")
 @CrossOrigin("*")
 public class ClubController {
 
@@ -30,18 +31,15 @@ public class ClubController {
     ClubService clubService;
 
     @CrossOrigin("*")
-    @GetMapping(path = "/club")
+    @GetMapping(path = "/getClubs")
     public List<Club> getClubs(){
         return clubService.getClubs();
     }
 
-    @PostMapping("/createClub")
-    public Club createClub() {
-        Club test = new Club("1", "UIR17", "INFORMER",
-                null, true, "UIR", "UIRimage", null); //for testing
-        return clubService.createClub(test); //clubService.createClub(club)
+    @PostMapping("/save")
+    public Club createClub(@RequestBody Club club,String nomReferent, Membre president, Membre vicePresident, Membre tresorier, Membre secretaire) {
+        return clubService.createClub(club,nomReferent, president, vicePresident, tresorier, secretaire); //clubService.createClub(club)
     }
-
 
     @GetMapping("/findClub/{id}")
     public ResponseEntity<Club> findClubById(@PathVariable("id") String idClub) {

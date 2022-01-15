@@ -10,6 +10,11 @@ public class Referent {
     private String idRef;
 
     private String nomRef;
+
+    public Referent(String nomRef) {
+        this.nomRef = nomRef;
+    }
+
     private String prenRef;
     private boolean status;
 

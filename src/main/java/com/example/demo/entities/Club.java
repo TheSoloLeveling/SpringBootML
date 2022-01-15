@@ -63,14 +63,11 @@ public class Club {
     }
 
 
-    public Club(String idClub, String nomClub, String descClub, Date dateCre, boolean status, String logo, String coverImg) {
+    public Club(String idClub, String nomClub, String descClub, Referent referent, LinkedList<Membre> membres) {
         this.idClub = idClub;
         this.nomClub = nomClub;
         this.descClub = descClub;
-        this.dateCre = dateCre;
-        this.status = status;
-        this.logo = logo;
-        this.coverImg = coverImg;
+        this.membres = membres;
     }
 
     public Membre findMember(EFonction e){
