@@ -35,7 +35,7 @@ public class ClubService {
     }
 
 
-    public void uploadImage(String idClub, MultipartFile file) throws IOException {
+    public void uploadImageLogo(String idClub, MultipartFile file) throws IOException {
         if (file.isEmpty()){
             throw new IllegalStateException("Cannot upload empty file");
         }
@@ -68,11 +68,52 @@ public class ClubService {
         }
     }
 
+    public void uploadImageCover(String idClub, MultipartFile file) throws IOException {
+        if (file.isEmpty()){
+            throw new IllegalStateException("Cannot upload empty file");
+        }
 
-    public byte[] downloadImage(String idClub) {
+        if (!Arrays.asList(IMAGE_JPEG.getMimeType(), IMAGE_PNG.getMimeType(), IMAGE_WEBP.getMimeType()).contains(file.getContentType())) {
+            throw new IllegalStateException("file must be an image");
+        }
+
+        //create metadata for the file
+        Map<String, String> metadata = new HashMap<>();
+        metadata.put("Content-Type", file.getContentType());
+        metadata.put("Content-Length", String.valueOf(file.getSize()));
+
+        //Check the club exist
+        Club club = getClubs().stream().filter(clubfilter -> clubfilter.getIdClub().equals(idClub))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Club " + idClub + "doesn't exist"));
+
+        //save the file in the ressource folder
+        String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), club.getIdClub());
+        String fileName = String.format("%s/%s", file.getName(), UUID.randomUUID());
+        try {
+            System.out.println("Nom du ficher est : " + fileName);
+            fileStore.save(path, fileName, Optional.of(metadata), file.getInputStream());
+            club.setCoverImg(fileName);
+            updateClub(idClub, club);
+
+        } catch(IOException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public byte[] downloadImageLogo(String idClub) {
         Club club = getClubById(idClub).getBody();
         String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), club.getIdClub());
         return club.getLogo()
+                .map(key -> fileStore.download(path, key))
+                .orElse(new byte[0]);
+
+    }
+
+    public byte[] downloadImageCover(String idClub) {
+        Club club = getClubById(idClub).getBody();
+        String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), club.getIdClub());
+        return club.getCoverImg()
                 .map(key -> fileStore.download(path, key))
                 .orElse(new byte[0]);
 
@@ -83,23 +124,24 @@ public class ClubService {
         return clubRepository.findAll();
     }
 
-    public Club createClub(Club club,String referent, Membre president, Membre vicePresident, Membre tresorier, Membre secretaire){
+    public Club createClub(Club c,Referent referent, Membre president, Membre vicePresident, Membre tresorier, Membre secretaire, MultipartFile fileC, MultipartFile fileL) throws IOException {
         Date date=new Date();
         long time=date.getTime();
         Timestamp dateTime=new Timestamp(time);
-
+        Club club = new Club();
+        club.setNomClub(c.getNomClub());
+        club.setDescClub(c.getDescClub());
         club.setStatus(false);
         club.setDateCre(dateTime);
 
-        LinkedList<Membre> m = new LinkedList<>();
+        Set<Membre> m = new HashSet<Membre>();
         m.add(president);
         m.add(vicePresident);
         m.add(tresorier);
         m.add(secretaire);
-
-
-        Referent r = new Referent(referent);
-        club.setReferent(r);
+        uploadImageCover(club.getIdClub(), fileC);
+        uploadImageLogo(club.getIdClub(), fileL);
+        club.setReferent(referent);
         club.setMembres(m);
 
         return clubRepository.save(club);
@@ -136,7 +178,7 @@ public class ClubService {
         club.setActivites(c.getActivites());
         club.setDateCre(c.getDateCre());
         club.setCategorie(c.getCategorie());
-        club.setCoverImg(c.getCoverImg());
+        club.setCoverImg(c.getCoverImg().get());
         club.setMembres(c.getMembres());
         club.setPostes(c.getPostes());
         club.setReferent(c.getReferent());

@@ -51,10 +51,11 @@ public class Membre {
         return nameUser;
     }
 
-    public Membre(String nom, String filiere, int anneeE, String nameUser) {
+    public Membre(String nom, String filiere, int anneeE, String email, String nameUser) {
         this.nom = nom;
         this.filiere = filiere;
         this.anneeE = anneeE;
+        this.email = email;
         this.nameUser = nameUser;
     }
 
@@ -85,7 +86,7 @@ public class Membre {
     public Membre() {
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(
             name = "MembreClub",
             joinColumns = @JoinColumn(name = "membre_id"),
@@ -97,10 +98,7 @@ public class Membre {
     @JoinColumn(name="groupe_id")
     private Groupe groupe;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(  name = "member_fonctionnalities",
-            joinColumns = @JoinColumn(name = "member_id"),
-            inverseJoinColumns = @JoinColumn(name = "fonctionalities_id"))
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Fonctionnalite> fonctionnalites;
 
     public String getIdMembre() {

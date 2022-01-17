@@ -4,12 +4,10 @@ import com.example.demo.repositories.FonctionnaliteRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.boot.context.properties.bind.Name;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Entity
 @Table(name = "club")
@@ -19,6 +17,7 @@ public class Club {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String idClub;
 
+    private String idS3;
 
     private String nomClub;
     private String descClub;
@@ -26,6 +25,7 @@ public class Club {
     private boolean status;
     private String logo;
     private String coverImg;
+
 
     @OneToOne
     @JoinColumn(name = "tresorerie_id")
@@ -56,28 +56,24 @@ public class Club {
     private Referent referent;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "club")
-    private LinkedList<Membre> membres;
+    private Set<Membre> membres;
 
     public Club() {
 
     }
 
-
-    public Club(String idClub, String nomClub, String descClub, Referent referent, LinkedList<Membre> membres) {
-        this.idClub = idClub;
+    public Club(String nomClub, String descClub) {
         this.nomClub = nomClub;
         this.descClub = descClub;
-        this.membres = membres;
     }
 
-    public Membre findMember(EFonction e){
+    public Membre findMember(EFonction e) {
 
         Fonctionnalite f = new Fonctionnalite(e);
-
-        for(int i = 0; i < membres.size(); i++){
-            if (membres.get(i).getFonctionnalites().contains(f)){
+        for (Membre membre : membres) {
+            if (membre.getFonctionnalites().contains(f)){
                 System.out.println("Member with function : " + e.name() +" is found");
-                return membres.get(i);
+                return membre;
             }
         }
         System.out.println(" Error: Member with function : " + e.name() + " not found");
@@ -141,8 +137,16 @@ public class Club {
         this.referent = referent;
     }
 
-    public void setMembres(LinkedList<Membre> membres) {
+    public void setMembres(Set<Membre> membres) {
         this.membres = membres;
+    }
+
+    public void setIdS3(String idS3) {
+        this.idS3 = idS3;
+    }
+
+    public String getIdS3() {
+        return idS3;
     }
 
     public String getIdClub() {
@@ -169,8 +173,8 @@ public class Club {
         return Optional.ofNullable(logo);
     }
 
-    public String getCoverImg() {
-        return coverImg;
+    public Optional<String> getCoverImg() {
+        return Optional.ofNullable(coverImg);
     }
 
     public Tresorerie getTresorerie() {
@@ -199,7 +203,7 @@ public class Club {
         return referent;
     }
 
-    public LinkedList<Membre> getMembres() {
+    public Set<Membre> getMembres() {
         return membres;
     }
 }

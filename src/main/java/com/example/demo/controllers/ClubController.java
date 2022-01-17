@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.entities.Affiliation;
 import com.example.demo.entities.Club;
 import com.example.demo.entities.Membre;
+import com.example.demo.entities.Referent;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.services.AffiliationService;
 import com.example.demo.services.ClubService;
@@ -36,9 +37,10 @@ public class ClubController {
         return clubService.getClubs();
     }
 
-    @PostMapping("/save")
-    public Club createClub(@RequestBody Club club,String nomReferent, Membre president, Membre vicePresident, Membre tresorier, Membre secretaire) {
-        return clubService.createClub(club,nomReferent, president, vicePresident, tresorier, secretaire); //clubService.createClub(club)
+    @CrossOrigin("*")
+    @PostMapping("/save/{club}/{referent}/{president}/{vicePresident}/{tresorier}/{secretaire}/{fileC}/{fileL}")
+    public Club createClub(@RequestParam Club club, @RequestParam Referent referent, @RequestParam Membre president, @RequestParam Membre vicePresident, @RequestParam Membre tresorier, @RequestParam Membre secretaire, @RequestParam MultipartFile fileC, @RequestParam MultipartFile fileL) throws IOException {
+        return clubService.createClub(club,referent, president, vicePresident, tresorier, secretaire, fileC, fileL); //clubService.createClub(club)
     }
 
     @GetMapping("/findClub/{id}")
@@ -67,17 +69,30 @@ public class ClubController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //DO NOT ENABLE              DO NOT ENABLE            DO NOT ENABLE                    DO NOT ENABLE          DO NOT ENABLE
     @PostMapping(
-            path = "{idClub}/image/upload",
-    consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-    produces = MediaType.APPLICATION_JSON_VALUE)
-    public void uploadImage(@PathVariable("idClub") String idClub,
-                            @RequestParam("file") MultipartFile file) throws IOException {
-        clubService.uploadImage(idClub, file);
+            path = "{idUser}/image/uploadIcon",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public void uploadImageIcon(@PathVariable("idUser") String idClub,
+                                @RequestParam("file") MultipartFile file) throws IOException {
+        clubService.uploadImageLogo(idClub, file);
     }
 
-    @GetMapping(path = "{idClub}/image/download")
-    public byte[] downloadImage(@PathVariable("idClub") String idClub) {
-        return clubService.downloadImage(idClub);
+    @PostMapping(
+            path = "{idUser}/image/uploadCover",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public void uploadImageCover(@PathVariable("idUser") String idClub,
+                                 @RequestParam("file") MultipartFile file) throws IOException {
+        clubService.uploadImageCover(idClub, file);
+    }
+
+    @GetMapping(path = "{idUser}/image/downloadCover")
+    public byte[] downloadImageCover(@PathVariable("idUser") String idClub) {
+        return  clubService.downloadImageCover(idClub);
+    }
+    @GetMapping(path = "{idUser}/image/downloadIcon")
+    public byte[] downloadImageLogo(@PathVariable("idUser") String idClub) {
+        return  clubService.downloadImageLogo(idClub);
     }
     //DO NOT ENABLE              DO NOT ENABLE            DO NOT ENABLE                    DO NOT ENABLE          DO NOT ENABLE
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

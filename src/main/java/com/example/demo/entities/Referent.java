@@ -10,12 +10,59 @@ public class Referent {
     private String idRef;
 
     private String nomRef;
+    private String email;
+    private Long idUser;
+    private String nameUser;
+    private String filiere;
 
-    public Referent(String nomRef) {
+
+
+    public void setIdRef(String idRef) {
+        this.idRef = idRef;
+    }
+
+    public void setNomRef(String nomRef) {
         this.nomRef = nomRef;
     }
 
-    private String prenRef;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setFiliere(String filiere) {
+        this.filiere = filiere;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
+    }
+
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
+    }
+
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public String getNameUser() {
+        return nameUser;
+    }
+
+    public Referent(String nomRef, String filiere, String email, String nameUser) {
+        this.nomRef = nomRef;
+        this.filiere = filiere;
+        this.email = email;
+        this.nameUser = nameUser;
+    }
+
+    public Referent() {
+    }
+
     private boolean status;
 
     @OneToMany(mappedBy = "referent")
@@ -29,8 +76,8 @@ public class Referent {
         return nomRef;
     }
 
-    public String getPrenRef() {
-        return prenRef;
+    public String getFiliere() {
+        return filiere;
     }
 
     public boolean isStatus() {

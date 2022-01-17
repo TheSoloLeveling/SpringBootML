@@ -55,7 +55,7 @@ public class MembreService {
                 "New Member to your club",
                 membre.toString());
 
-        LinkedList<Membre> m = club.getMembres();
+        Set<Membre> m = club.getMembres();
         m.add(membre);
         club.setMembres(m);
         membre.setClub(club);

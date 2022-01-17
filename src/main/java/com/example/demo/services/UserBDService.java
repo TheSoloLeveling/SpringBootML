@@ -75,7 +75,7 @@ public class UserBDService {
             System.out.println("Nom du ficher est : " + fileName);
             fileStore.save(path, fileName, Optional.of(metadata), file.getInputStream());
             userBD.setIcon(fileName);
-            updateClub(idUser, userBD);
+            updateUserBD(idUser, userBD);
 
         } catch(IOException e) {
             throw new IllegalStateException(e);
@@ -108,7 +108,7 @@ public class UserBDService {
             System.out.println("Nom du ficher est : " + fileName);
             fileStore.save(path, fileName, Optional.of(metadata), file.getInputStream());
             userBD.setCover(fileName);
-            updateClub(idUser, userBD);
+            updateUserBD(idUser, userBD);
 
         } catch(IOException e) {
             throw new IllegalStateException(e);
@@ -116,7 +116,7 @@ public class UserBDService {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<UserBD> updateClub(@PathVariable("id") Long idUser,
+    public ResponseEntity<UserBD> updateUserBD(@PathVariable("id") Long idUser,
                                            @Validated @RequestBody UserBD c) {
 
         UserBD user = userBDRepository.findById(idUser)
