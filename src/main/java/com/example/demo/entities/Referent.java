@@ -7,7 +7,7 @@ import java.util.List;
 public class Referent {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private String idRef;
+    private Integer idRef;
 
     private String nomRef;
     private String email;
@@ -17,7 +17,7 @@ public class Referent {
 
 
 
-    public void setIdRef(String idRef) {
+    public void setIdRef(Integer idRef) {
         this.idRef = idRef;
     }
 
@@ -65,10 +65,10 @@ public class Referent {
 
     private boolean status;
 
-    @OneToMany(mappedBy = "referent")
+    @OneToMany(mappedBy = "referent", fetch = FetchType.EAGER)
     private List<Club> clubs;
 
-    public String getIdRef() {
+    public Integer getIdRef() {
         return idRef;
     }
 
@@ -86,5 +86,19 @@ public class Referent {
 
     public List<Club> getClubs() {
         return clubs;
+    }
+
+    @Override
+    public String toString() {
+        return "Referent{" +
+                "idRef='" + idRef + '\'' +
+                ", nomRef='" + nomRef + '\'' +
+                ", email='" + email + '\'' +
+                ", idUser=" + idUser +
+                ", nameUser='" + nameUser + '\'' +
+                ", filiere='" + filiere + '\'' +
+                ", status=" + status +
+                ", clubs=" + clubs +
+                '}';
     }
 }

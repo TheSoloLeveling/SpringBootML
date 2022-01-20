@@ -13,9 +13,9 @@ import java.util.*;
 @Table(name = "club")
 public class Club {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO, generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String idClub;
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name="idClub", unique = true, nullable = false)
+    private Integer idClub;
 
     private String idS3;
 
@@ -26,36 +26,13 @@ public class Club {
     private String logo;
     private String coverImg;
 
-
-    @OneToOne
-    @JoinColumn(name = "tresorerie_id")
-    private Tresorerie tresorerie;
-
     @JsonIgnore
-    @OneToMany(mappedBy = "club")
-    private List<Activite> activites;
-
-    @ManyToOne
-    @JoinColumn(name="affiliation_id")
-    private Affiliation affiliation;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "club")
-    private List<Reunion> reunions;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "club")
-    private List<Poste> postes;
-
-    @ManyToOne
-    @JoinColumn(name="categorie_id")
-    private Categorie categorie;
-
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="referent_id")
     private Referent referent;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "club")
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "club", cascade = {CascadeType.ALL})
     private Set<Membre> membres;
 
     public Club() {
@@ -80,7 +57,7 @@ public class Club {
         return null;
     }
 
-    public void setIdClub(String idClub) {
+    public void setIdClub(Integer idClub) {
         this.idClub = idClub;
     }
 
@@ -109,30 +86,6 @@ public class Club {
         this.coverImg = coverImg;
     }
 
-    public void setTresorerie(Tresorerie tresorerie) {
-        this.tresorerie = tresorerie;
-    }
-
-    public void setActivites(List<Activite> activites) {
-        this.activites = activites;
-    }
-
-    public void setAffiliation(Affiliation affiliation) {
-        this.affiliation = affiliation;
-    }
-
-    public void setReunions(List<Reunion> reunions) {
-        this.reunions = reunions;
-    }
-
-    public void setPostes(List<Poste> postes) {
-        this.postes = postes;
-    }
-
-    public void setCategorie(Categorie categorie) {
-        this.categorie = categorie;
-    }
-
     public void setReferent(Referent referent) {
         this.referent = referent;
     }
@@ -149,7 +102,7 @@ public class Club {
         return idS3;
     }
 
-    public String getIdClub() {
+    public Integer getIdClub() {
         return idClub;
     }
 
@@ -177,27 +130,7 @@ public class Club {
         return Optional.ofNullable(coverImg);
     }
 
-    public Tresorerie getTresorerie() {
-        return tresorerie;
-    }
 
-    public List<Activite> getActivites() { return activites; }
-
-    public Affiliation getAffiliation() {
-        return affiliation;
-    }
-
-    public List<Reunion> getReunions() {
-        return reunions;
-    }
-
-    public List<Poste> getPostes() {
-        return postes;
-    }
-
-    public Categorie getCategorie() {
-        return categorie;
-    }
 
     public Referent getReferent() {
         return referent;
@@ -205,5 +138,21 @@ public class Club {
 
     public Set<Membre> getMembres() {
         return membres;
+    }
+
+    @Override
+    public String toString() {
+        return "Club{" +
+                "idClub='" + idClub + '\'' +
+                ", idS3='" + idS3 + '\'' +
+                ", nomClub='" + nomClub + '\'' +
+                ", descClub='" + descClub + '\'' +
+                ", dateCre=" + dateCre +
+                ", status=" + status +
+                ", logo='" + logo + '\'' +
+                ", coverImg='" + coverImg + '\'' +
+                ", referent=" + referent +
+                ", membres=" + membres +
+                '}';
     }
 }

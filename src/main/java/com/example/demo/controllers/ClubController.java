@@ -1,11 +1,7 @@
 package com.example.demo.controllers;
 
-import com.example.demo.entities.Affiliation;
-import com.example.demo.entities.Club;
-import com.example.demo.entities.Membre;
-import com.example.demo.entities.Referent;
+import com.example.demo.entities.*;
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.services.AffiliationService;
 import com.example.demo.services.ClubService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,19 +34,23 @@ public class ClubController {
     }
 
     @CrossOrigin("*")
-    @PostMapping("/save/{club}/{referent}/{president}/{vicePresident}/{tresorier}/{secretaire}/{fileC}/{fileL}")
-    public Club createClub(@RequestParam Club club, @RequestParam Referent referent, @RequestParam Membre president, @RequestParam Membre vicePresident, @RequestParam Membre tresorier, @RequestParam Membre secretaire, @RequestParam MultipartFile fileC, @RequestParam MultipartFile fileL) throws IOException {
-        return clubService.createClub(club,referent, president, vicePresident, tresorier, secretaire, fileC, fileL); //clubService.createClub(club)
+    @PostMapping(value = "/save", headers = {
+            "content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Club createClub(@RequestBody RequestCreateClub r) throws IOException {
+        System.out.println(r);
+        System.out.println(r.toString());
+        return clubService.createClub(r.getClubRequest(), r.getReferentRequest(), r.getPresidentRequest(), r.getVicePresidentRequest(), r.getTresorierRequest(), r.getSecretaireRequest()); //clubService.createClub(club)
     }
 
-    @GetMapping("/findClub/{id}")
+    @CrossOrigin("*")
+    @GetMapping("/findClubById/{id}")
     public ResponseEntity<Club> findClubById(@PathVariable("id") String idClub) {
         return clubService.getClubById(idClub);
     }
 
-
-    @GetMapping("/findClub/{name}")
-    public ResponseEntity<Club> findClubBynomClub(@RequestParam String nomClub) {
+    @CrossOrigin("*")
+    @GetMapping("/findClubByName")
+    public ResponseEntity<Club> findClubBynomClub(@RequestParam(required=false) String nomClub) {
         return clubService.getClubBynomClub(nomClub);
     }
 

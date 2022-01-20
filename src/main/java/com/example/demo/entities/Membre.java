@@ -1,5 +1,8 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.LinkedList;
@@ -10,7 +13,9 @@ import java.util.Set;
 public class Membre {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private String idMembre;
+    @Column(name = "idMembre", unique = true, nullable = false)
+    private Integer idMembre;
+
     private String nom;
     private String filiere;
     private int anneeE;
@@ -19,18 +24,6 @@ public class Membre {
     private Date dateCre;
     private String pdpMembre;
     private String email;
-
-    @Override
-    public String toString() {
-        return "Membre{" +
-                "nom='" + nom + '\'' +
-                ", filiere='" + filiere + '\'' +
-                ", anneeE=" + anneeE +
-                ", dateCre=" + dateCre +
-                ", email='" + email + '\'' +
-                ", fonctionnalites=" + fonctionnalites +
-                '}';
-    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -86,22 +79,16 @@ public class Membre {
     public Membre() {
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "MembreClub",
-            joinColumns = @JoinColumn(name = "membre_id"),
-            inverseJoinColumns = @JoinColumn(name = "club_id")
-    )
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Club.class)
+    @JoinColumn(name = "idClub", insertable = false, updatable = false)
     private Club club;
 
-    @ManyToOne
-    @JoinColumn(name="groupe_id")
-    private Groupe groupe;
 
     @OneToMany(fetch = FetchType.LAZY)
     private Set<Fonctionnalite> fonctionnalites;
 
-    public String getIdMembre() {
+    public Integer getIdMembre() {
         return idMembre;
     }
 
@@ -121,9 +108,6 @@ public class Membre {
         return club;
     }
 
-    public Groupe getGroupe() {
-        return groupe;
-    }
 
     public Set<Fonctionnalite> getFonctionnalites() {
         return fonctionnalites;
@@ -141,7 +125,7 @@ public class Membre {
         return nom;
     }
 
-    public void setIdMembre(String idMembre) {
+    public void setIdMembre(Integer idMembre) {
         this.idMembre = idMembre;
     }
 
@@ -165,11 +149,27 @@ public class Membre {
         this.club = clubs;
     }
 
-    public void setGroupe(Groupe groupe) {
-        this.groupe = groupe;
-    }
 
     public void setFonctionnalites(Set<Fonctionnalite> fonctionnalites) {
         this.fonctionnalites = fonctionnalites;
+    }
+
+    @Override
+    public String toString() {
+        return "Membre{" +
+                "idMembre='" + idMembre + '\'' +
+                ", nom='" + nom + '\'' +
+                ", filiere='" + filiere + '\'' +
+                ", anneeE=" + anneeE +
+                ", status=" + status +
+                ", dateCon=" + dateCon +
+                ", dateCre=" + dateCre +
+                ", pdpMembre='" + pdpMembre + '\'' +
+                ", email='" + email + '\'' +
+                ", idUser=" + idUser +
+                ", nameUser='" + nameUser + '\'' +
+                ", club=" + club +
+                ", fonctionnalites=" + fonctionnalites +
+                '}';
     }
 }

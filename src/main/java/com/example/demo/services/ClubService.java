@@ -1,12 +1,10 @@
 package com.example.demo.services;
 
 
-import com.example.demo.entities.Membre;
-import com.example.demo.entities.Referent;
+import com.example.demo.entities.*;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.filestore.FileStore;
 import com.example.demo.bucket.BucketName;
-import com.example.demo.entities.Club;
 import com.example.demo.repositories.ClubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -124,7 +122,7 @@ public class ClubService {
         return clubRepository.findAll();
     }
 
-    public Club createClub(Club c,Referent referent, Membre president, Membre vicePresident, Membre tresorier, Membre secretaire, MultipartFile fileC, MultipartFile fileL) throws IOException {
+    public Club createClub(Club c,Referent referent, Membre president, Membre vicePresident, Membre tresorier, Membre secretaire) throws IOException {
         Date date=new Date();
         long time=date.getTime();
         Timestamp dateTime=new Timestamp(time);
@@ -133,14 +131,11 @@ public class ClubService {
         club.setDescClub(c.getDescClub());
         club.setStatus(false);
         club.setDateCre(dateTime);
-
         Set<Membre> m = new HashSet<Membre>();
         m.add(president);
         m.add(vicePresident);
         m.add(tresorier);
         m.add(secretaire);
-        uploadImageCover(club.getIdClub(), fileC);
-        uploadImageLogo(club.getIdClub(), fileL);
         club.setReferent(referent);
         club.setMembres(m);
 
@@ -150,17 +145,18 @@ public class ClubService {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Club> getClubById(@PathVariable("id") String idClub){
 
-        Club club = clubRepository.findById(idClub)
+        Club club = clubRepository.findByIdClub(idClub)
                 .orElseThrow( () -> new ResourceNotFoundException("Club with id " + idClub + " not found"));
 
         return ResponseEntity.ok().body(club);
     }
 
-    @RequestMapping(value = "/{name}", method = RequestMethod.GET)
-    public ResponseEntity<Club> getClubBynomClub(@RequestParam String nomClub) throws ResourceNotFoundException {
-        Club club = clubRepository.findByNomClub(nomClub)
-                .orElseThrow( () -> new ResourceNotFoundException("Club with name" + nomClub + " not found"));
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<Club> getClubBynomClub(@RequestParam(required=false) String nomClub) throws ResourceNotFoundException {
 
+        Club club = clubRepository.findByNomClub(nomClub)
+                .orElseThrow( () -> new ResourceNotFoundException("Club with name  " + nomClub + " not found"));
+        System.out.println(club.getMembres().toString());
         return ResponseEntity.ok().body(club);
     }
 
@@ -174,17 +170,11 @@ public class ClubService {
         club.setLogo(c.getLogo().get());
         club.setNomClub(c.getNomClub());
         club.setDescClub(c.getDescClub());
-        club.setAffiliation(c.getAffiliation());
-        club.setActivites(c.getActivites());
         club.setDateCre(c.getDateCre());
-        club.setCategorie(c.getCategorie());
         club.setCoverImg(c.getCoverImg().get());
         club.setMembres(c.getMembres());
-        club.setPostes(c.getPostes());
         club.setReferent(c.getReferent());
-        club.setTresorerie(c.getTresorerie());
         club.setStatus(c.isStatus());
-        club.setReunions(c.getReunions());
 
         return ResponseEntity.ok().body(clubRepository.save(club));
     }

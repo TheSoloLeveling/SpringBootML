@@ -1,9 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entities.Referent;
-import com.example.demo.entities.Tresorerie;
 import com.example.demo.services.ReferentService;
-import com.example.demo.services.TresorerieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
