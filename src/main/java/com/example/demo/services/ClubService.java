@@ -132,6 +132,12 @@ public class ClubService {
         club.setStatus(false);
         club.setDateCre(dateTime);
         Set<Membre> m = new HashSet<Membre>();
+
+        Set<Fonctionnalite> fonctions = new HashSet<>();
+        Fonctionnalite fonctionnalite = new Fonctionnalite(EFonction.PRESIDENT);
+        fonctions.add(fonctionnalite);
+        president.setFonctionnalites(fonctions);
+
         m.add(president);
         m.add(vicePresident);
         m.add(tresorier);

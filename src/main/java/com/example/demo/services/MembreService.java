@@ -58,7 +58,7 @@ public class MembreService {
         Set<Membre> m = club.getMembres();
         m.add(membre);
         club.setMembres(m);
-        membre.setClub(club);
+
         clubRepository.save(club);
         
         return membreRepository.save(membre);

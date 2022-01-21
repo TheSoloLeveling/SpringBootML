@@ -14,12 +14,6 @@ public class Fonctionnalite {
     @Column(length = 20)
     private EFonction name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(  name = "member_fonctionnalities",
-            joinColumns = @JoinColumn(name = "membre_id"),
-            inverseJoinColumns = @JoinColumn(name = "fonction_id"))
-    private Membre membre;
-
 
     public Fonctionnalite() {
     }
@@ -30,14 +24,6 @@ public class Fonctionnalite {
 
     public void setIdFonct(Integer idFonct) {
         this.idFonct = idFonct;
-    }
-
-    public void setMembre(Membre membre) {
-        this.membre = membre;
-    }
-
-    public Membre getMembre() {
-        return membre;
     }
 
     public Integer getIdFonct() {

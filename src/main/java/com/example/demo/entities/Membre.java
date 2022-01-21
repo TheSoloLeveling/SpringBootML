@@ -79,13 +79,10 @@ public class Membre {
     public Membre() {
     }
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Club.class)
-    @JoinColumn(name = "idClub", insertable = false, updatable = false)
-    private Club club;
-
-
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinTable(  name = "membre_fonction",
+            joinColumns = @JoinColumn(name = "membre_id"),
+            inverseJoinColumns = @JoinColumn(name = "fonction_id"))
     private Set<Fonctionnalite> fonctionnalites;
 
     public Integer getIdMembre() {
@@ -104,9 +101,7 @@ public class Membre {
         return pdpMembre;
     }
 
-    public Club getClub() {
-        return club;
-    }
+
 
 
     public Set<Fonctionnalite> getFonctionnalites() {
@@ -145,10 +140,6 @@ public class Membre {
         this.pdpMembre = pdpMembre;
     }
 
-    public void setClub(Club clubs) {
-        this.club = clubs;
-    }
-
 
     public void setFonctionnalites(Set<Fonctionnalite> fonctionnalites) {
         this.fonctionnalites = fonctionnalites;
@@ -168,7 +159,6 @@ public class Membre {
                 ", email='" + email + '\'' +
                 ", idUser=" + idUser +
                 ", nameUser='" + nameUser + '\'' +
-                ", club=" + club +
                 ", fonctionnalites=" + fonctionnalites +
                 '}';
     }
