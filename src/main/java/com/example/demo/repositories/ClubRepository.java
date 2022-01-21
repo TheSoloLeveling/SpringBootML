@@ -13,7 +13,7 @@ public interface ClubRepository extends JpaRepository<Club, String> {
     Optional<Club> findByNomClub(String nomClub);
 
 
-    Optional<Club> findByIdClub(String idClub);
+    Optional<Club> findByIdClub(Integer idClub);
 
 
 }

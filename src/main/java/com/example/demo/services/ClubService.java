@@ -33,7 +33,7 @@ public class ClubService {
     }
 
 
-    public void uploadImageLogo(String idClub, MultipartFile file) throws IOException {
+    public void uploadImageLogo(Integer idClub, MultipartFile file) throws IOException {
         if (file.isEmpty()){
             throw new IllegalStateException("Cannot upload empty file");
         }
@@ -66,7 +66,7 @@ public class ClubService {
         }
     }
 
-    public void uploadImageCover(String idClub, MultipartFile file) throws IOException {
+    public void uploadImageCover(Integer idClub, MultipartFile file) throws IOException {
         if (file.isEmpty()){
             throw new IllegalStateException("Cannot upload empty file");
         }
@@ -81,9 +81,7 @@ public class ClubService {
         metadata.put("Content-Length", String.valueOf(file.getSize()));
 
         //Check the club exist
-        Club club = getClubs().stream().filter(clubfilter -> clubfilter.getIdClub().equals(idClub))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Club " + idClub + "doesn't exist"));
+        Club club = getClubById(idClub).getBody();
 
         //save the file in the ressource folder
         String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), club.getIdClub());
@@ -99,7 +97,7 @@ public class ClubService {
         }
     }
 
-    public byte[] downloadImageLogo(String idClub) {
+    public byte[] downloadImageLogo(Integer idClub) {
         Club club = getClubById(idClub).getBody();
         String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), club.getIdClub());
         return club.getLogo()
@@ -108,7 +106,7 @@ public class ClubService {
 
     }
 
-    public byte[] downloadImageCover(String idClub) {
+    public byte[] downloadImageCover(Integer idClub) {
         Club club = getClubById(idClub).getBody();
         String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), club.getIdClub());
         return club.getCoverImg()
@@ -149,7 +147,7 @@ public class ClubService {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Club> getClubById(@PathVariable("id") String idClub){
+    public ResponseEntity<Club> getClubById(@PathVariable("id") Integer idClub){
 
         Club club = clubRepository.findByIdClub(idClub)
                 .orElseThrow( () -> new ResourceNotFoundException("Club with id " + idClub + " not found"));
@@ -167,13 +165,13 @@ public class ClubService {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Club> updateClub(@PathVariable("id") String idClub,
+    public ResponseEntity<Club> updateClub(@PathVariable("id") Integer idClub,
                                            @Validated @RequestBody Club c) {
 
-        Club club = clubRepository.findById(idClub)
+        Club club = clubRepository.findByIdClub(idClub)
                 .orElseThrow( () -> new ResourceNotFoundException("Club with id " + idClub + " not found"));
 
-        club.setLogo(c.getLogo().get());
+        club.setLogo(c.getLogo().orElse(null));
         club.setNomClub(c.getNomClub());
         club.setDescClub(c.getDescClub());
         club.setDateCre(c.getDateCre());
@@ -186,8 +184,8 @@ public class ClubService {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public Map<String, Boolean> deleteClub(String idClub) {
-        Club club = clubRepository.findById(idClub)
+    public Map<String, Boolean> deleteClub(Integer idClub) {
+        Club club = clubRepository.findByIdClub(idClub)
                 .orElseThrow( () -> new ResourceNotFoundException("Club with id " + idClub + " not found"));
         clubRepository.delete(club);
         Map<String, Boolean> response = new HashMap<>();
