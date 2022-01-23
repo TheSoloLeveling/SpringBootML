@@ -27,6 +27,17 @@ public class Club {
     private String coverImg;
     private String email;
 
+    @Column(name="nbrFollowers ")
+    private Integer nbrFollowers = 0;
+
+    public void setNbrFollowers(Integer nbrFollowers) {
+        this.nbrFollowers = nbrFollowers;
+    }
+
+    public Integer getNbrFollowers() {
+        return nbrFollowers;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }

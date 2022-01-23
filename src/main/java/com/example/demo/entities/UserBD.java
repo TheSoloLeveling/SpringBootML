@@ -67,6 +67,18 @@ public class UserBD {
     private boolean isAccountNonExpired;
     private boolean CredentialsNonExpired;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name="id", referencedColumnName = "id")
+    private Set<ClubFollowed> followedTo;
+
+    public void setFollowedTo(Set<ClubFollowed> followedTo) {
+        this.followedTo = followedTo;
+    }
+
+    public Set<ClubFollowed> getFollowedTo() {
+        return followedTo;
+    }
+
     public UserBD() {
     }
 

@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entities.Club;
+import com.example.demo.entities.FollowRequest;
 import com.example.demo.entities.UserBD;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.services.ClubService;
@@ -28,6 +29,18 @@ public class UserBDController {
 
     @Autowired
     UserBDService userBDService;
+
+    @PostMapping(value = "/follow", headers = {
+            "content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void followClub(@RequestBody FollowRequest f) throws IOException {
+        userBDService.followClub(f.getNomClub(), f.getIdUser());
+    }
+
+    @PostMapping(value = "/unfollow", headers = {
+            "content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void unfollowClub(@RequestBody FollowRequest f) throws IOException {
+        userBDService.unfollowClub(f.getNomClub(), f.getIdUser());
+    }
 
     @GetMapping("/findUser/{username}")
     public ResponseEntity<UserBD> findUserByusername(@PathVariable String username) {

@@ -2,11 +2,9 @@ package com.example.demo.services;
 
 
 import com.example.demo.Mail.EmailService;
-import com.example.demo.entities.Club;
-import com.example.demo.entities.EFonction;
-import com.example.demo.entities.Fonctionnalite;
-import com.example.demo.entities.Membre;
+import com.example.demo.entities.*;
 import com.example.demo.repositories.ClubRepository;
+import com.example.demo.repositories.FonctionnaliteRepository;
 import com.example.demo.repositories.MembreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,46 +30,59 @@ public class MembreService {
     @Autowired
     private ClubRepository clubRepository;
 
+    @Autowired
+    private FonctionnaliteRepository fonctionnaliteRepository;
 
-    public Membre submitMetaDataOfUser(Membre membre, String nomClub) {
+
+    public void submitMetaDataOfUser(String nom, String filiere, int anneeE
+                                       , String email, String nameUser, String Raison,
+                                       String nomClub) {
 
         Date date=new Date();
         long time=date.getTime();
         Timestamp dateTime=new Timestamp(time);
-
-        membre.setStatus(true);
+        Membre membre = new Membre();
+        membre.setStatus(false);
         membre.setDateCre(dateTime);
+        membre.setNameUser(nameUser);
+        membre.setAnneeE(anneeE);
+        membre.setEmail(email);
+        membre.setNom(nom);
+        membre.setFiliere(filiere);
 
         Club club = clubService.getClubBynomClub(nomClub).getBody();
 
         Long id = userBDService.getUserByusername(membre.getNameUser()).getBody().getId();
         membre.setIdUser(id);
 
-        Set<Fonctionnalite> f = new HashSet<>();
-        f.add(new Fonctionnalite(EFonction.MEMBER));
-        membre.setFonctionnalites(f);
+        Set<Fonctionnalite> fonctionsM = new HashSet<>();
+        Fonctionnalite fonctionnaliteT = fonctionnaliteRepository.findByName(EFonction.MEMBER)
+                .orElseThrow(() -> new RuntimeException("Error: Function is not found."));
+        fonctionsM.add(fonctionnaliteT);
+        membre.setFonctionnalites(fonctionsM);
 
-        emailService.sendEmail(club.findMember(EFonction.PRESIDENT).getEmail(),
-                "New Member to your club",
-                membre.toString());
+       // emailService.sendEmail(club.findMember(EFonction.PRESIDENT).getEmail(),
+        //        "New Member to your club",
+         //       membre.toString());
 
         Set<Membre> m = club.getMembres();
         m.add(membre);
         club.setMembres(m);
 
+
         clubRepository.save(club);
-        
-        return membreRepository.save(membre);
+
     }
+
+
 
     public ArrayList<Membre> retrieveAllUserDetails(){
         return (ArrayList<Membre>) membreRepository.findAll();
     }
 
-    public Optional<Membre> getUserData(String idMembre) {
+    public Optional<Membre> getUserData(Integer idMembre) {
         return membreRepository.findById(idMembre);
     }
-
 
 
 }

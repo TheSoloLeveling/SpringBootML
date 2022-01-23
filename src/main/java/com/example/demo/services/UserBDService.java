@@ -2,9 +2,11 @@ package com.example.demo.services;
 
 import com.example.demo.bucket.BucketName;
 import com.example.demo.entities.Club;
+import com.example.demo.entities.ClubFollowed;
 import com.example.demo.entities.UserBD;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.filestore.FileStore;
+import com.example.demo.repositories.ClubRepository;
 import com.example.demo.repositories.UserBDRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +27,56 @@ public class UserBDService {
     @Autowired
     UserBDRepository userBDRepository;
 
+    @Autowired
+    ClubRepository clubRepository  ;
+
+    @Autowired
+    ClubService clubService;
+
     public UserBDService(FileStore fileStore) {
         this.fileStore = fileStore;
+    }
+
+
+    public void followClub(String nomClub, Long idUser) {
+        Club club = clubService.getClubBynomClub(nomClub).getBody();
+        if (club.getNbrFollowers() == null) {
+            club.setNbrFollowers(1);
+        }
+        else
+            club.setNbrFollowers(club.getNbrFollowers() + 1);
+
+
+        UserBD userBD = getUserById(idUser).getBody();
+        Set<ClubFollowed> clubFollowed = userBD.getFollowedTo();
+        clubFollowed.add(new ClubFollowed(nomClub));
+        userBD.setFollowedTo(clubFollowed);
+
+        clubRepository.save(club);
+        userBDRepository.save(userBD);
+    }
+
+    public void unfollowClub(String nomClub, Long idUser) {
+        Club club = clubService.getClubBynomClub(nomClub).getBody();
+
+        club.setNbrFollowers(club.getNbrFollowers() - 1);
+
+        UserBD userBD = getUserById(idUser).getBody();
+        Set<ClubFollowed> clubFollowed = userBD.getFollowedTo();
+        clubFollowed.remove(findClubFollowed(clubFollowed, idUser));
+
+        userBD.setFollowedTo(clubFollowed);
+
+        clubRepository.save(club);
+        userBDRepository.save(userBD);
+    }
+
+    public ClubFollowed findClubFollowed(Set<ClubFollowed> clubFollowed, Long id) {
+        for(ClubFollowed s : clubFollowed){
+            if (s.getId().longValue() == id)
+                return  s;
+        }
+        return null;
     }
 
     public List<UserBD> getUsers() {

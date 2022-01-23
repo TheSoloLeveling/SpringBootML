@@ -27,6 +27,8 @@ public class ClubController {
     @Autowired
     ClubService clubService;
 
+
+
     @CrossOrigin("*")
     @GetMapping(path = "/getClubs")
     public List<Club> getClubs(){

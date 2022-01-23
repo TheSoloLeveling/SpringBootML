@@ -9,7 +9,7 @@ public class Referent {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer idRef;
 
-    private String nomRef;
+    private String nom;
     private String email;
     private Long idUser;
     private String nameUser;
@@ -21,8 +21,8 @@ public class Referent {
         this.idRef = idRef;
     }
 
-    public void setNomRef(String nomRef) {
-        this.nomRef = nomRef;
+    public void setNom(String nomRef) {
+        this.nom = nomRef;
     }
 
     public void setEmail(String email) {
@@ -54,7 +54,7 @@ public class Referent {
     }
 
     public Referent(String nomRef, String filiere, String email, String nameUser) {
-        this.nomRef = nomRef;
+        this.nom = nomRef;
         this.filiere = filiere;
         this.email = email;
         this.nameUser = nameUser;
@@ -72,8 +72,8 @@ public class Referent {
         return idRef;
     }
 
-    public String getNomRef() {
-        return nomRef;
+    public String getNom() {
+        return nom;
     }
 
     public String getFiliere() {
@@ -92,7 +92,7 @@ public class Referent {
     public String toString() {
         return "Referent{" +
                 "idRef='" + idRef + '\'' +
-                ", nomRef='" + nomRef + '\'' +
+                ", nomRef='" + nom + '\'' +
                 ", email='" + email + '\'' +
                 ", idUser=" + idUser +
                 ", nameUser='" + nameUser + '\'' +

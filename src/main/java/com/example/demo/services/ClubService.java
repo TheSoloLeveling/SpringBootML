@@ -6,6 +6,7 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.filestore.FileStore;
 import com.example.demo.bucket.BucketName;
 import com.example.demo.repositories.ClubRepository;
+import com.example.demo.repositories.FonctionnaliteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,12 @@ public class ClubService {
 
     @Autowired
     ClubRepository clubRepository;
+
+    @Autowired
+    FonctionnaliteRepository fonctionnaliteRepository;
+
+    @Autowired
+    private UserBDService userBDService;
 
     public ClubService(FileStore fileStore) {
         this.fileStore = fileStore;
@@ -129,10 +136,50 @@ public class ClubService {
         club.setDateCre(dateTime);
         Set<Membre> m = new HashSet<Membre>();
 
-        Set<Fonctionnalite> fonctions = new HashSet<>();
-        Fonctionnalite fonctionnalite = new Fonctionnalite(EFonction.PRESIDENT);
-        fonctions.add(fonctionnalite);
-        president.setFonctionnalites(fonctions);
+        Long idP = userBDService.getUserByusername(president.getNameUser()).getBody().getId();
+        president.setIdUser(idP);
+
+        Long idV = userBDService.getUserByusername(vicePresident.getNameUser()).getBody().getId();
+        vicePresident.setIdUser(idV);
+
+        Long idS = userBDService.getUserByusername(secretaire.getNameUser()).getBody().getId();
+        secretaire.setIdUser(idS);
+
+        Long idT = userBDService.getUserByusername(tresorier.getNameUser()).getBody().getId();
+        tresorier.setIdUser(idT);
+
+        Long idR = userBDService.getUserByusername(tresorier.getNameUser()).getBody().getId();
+        referent.setIdUser(idR);
+
+        Set<Fonctionnalite> fonctionsP = new HashSet<>();
+        Set<Fonctionnalite> fonctionsV = new HashSet<>();
+        Set<Fonctionnalite> fonctionsS = new HashSet<>();
+        Set<Fonctionnalite> fonctionsT = new HashSet<>();
+
+        Fonctionnalite fonctionnaliteP = fonctionnaliteRepository.findByName(EFonction.PRESIDENT)
+                .orElseThrow(() -> new RuntimeException("Error: Function is not found."));
+        fonctionsP.add(fonctionnaliteP);
+        president.setFonctionnalites(fonctionsP);
+
+        Fonctionnalite fonctionnaliteV = fonctionnaliteRepository.findByName(EFonction.VICEPRESIDENT)
+                .orElseThrow(() -> new RuntimeException("Error: Function is not found."));
+        fonctionsV.add(fonctionnaliteV);
+        vicePresident.setFonctionnalites(fonctionsV);
+
+        Fonctionnalite fonctionnaliteS = fonctionnaliteRepository.findByName(EFonction.SECRETARY)
+                .orElseThrow(() -> new RuntimeException("Error: Function is not found."));
+        fonctionsS.add(fonctionnaliteS);
+        secretaire.setFonctionnalites(fonctionsS);
+
+        Fonctionnalite fonctionnaliteT = fonctionnaliteRepository.findByName(EFonction.TREASURER)
+                .orElseThrow(() -> new RuntimeException("Error: Function is not found."));
+        fonctionsT.add(fonctionnaliteT);
+        tresorier.setFonctionnalites(fonctionsT);
+
+        president.setDateCre(dateTime);
+        vicePresident.setDateCre(dateTime);
+        secretaire.setDateCre(dateTime);
+        tresorier.setDateCre(dateTime);
 
         m.add(president);
         m.add(vicePresident);
