@@ -34,6 +34,8 @@ public class UserBDService {
     }
 
     public byte[] downloadImageCover(Long idUser) {
+        if(idUser == 0)
+            return null;
         UserBD userBD = userBDRepository.getById(idUser) ;
         String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), userBD.getId());
         return userBD.getCover()
@@ -42,6 +44,8 @@ public class UserBDService {
     }
 
     public byte[] downloadImageIcon(Long idUser) {
+        if(idUser == 0)
+            return null;
         UserBD userBD = userBDRepository.getById(idUser) ;
         String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), userBD.getId());
         return userBD.getIcon()
@@ -64,9 +68,7 @@ public class UserBDService {
         metadata.put("Content-Length", String.valueOf(file.getSize()));
 
         //Check the club exist
-        UserBD userBD = getUsers().stream().filter(userfilter -> userfilter.getIcon().equals(idUser))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Club " + idUser + "doesn't exist"));
+        UserBD userBD = getUserById(idUser).getBody();
 
         //save the file in the ressource folder
         String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), userBD.getId());
@@ -97,9 +99,7 @@ public class UserBDService {
         metadata.put("Content-Length", String.valueOf(file.getSize()));
 
         //Check the club exist
-        UserBD userBD = getUsers().stream().filter(userfilter -> userfilter.getIcon().equals(idUser))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Club " + idUser + "doesn't exist"));
+        UserBD userBD = getUserById(idUser).getBody();
 
         //save the file in the ressource folder
         String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), userBD.getId());
@@ -120,16 +120,12 @@ public class UserBDService {
                                            @Validated @RequestBody UserBD c) {
 
         UserBD user = userBDRepository.findById(idUser)
-                .orElseThrow( () -> new ResourceNotFoundException("Club with id " + idUser + " not found"));
+                .orElseThrow( () -> new ResourceNotFoundException("Club with id : " + idUser + " not found"));
 
-        user.setIcon(c.getIcon().get());
+
         user.setUserName(c.getUserName());
         user.setPassword(c.getPassword());
-        user.setAccountNonExpired(c.isAccountNonExpired());
-        user.setEnabled(c.isEnabled());
-        user.setAccountNonLocked(c.isAccountNonLocked());
-        user.setCredentialsNonExpired(c.isCredentialsNonExpired());
-        user.setRoles(c.getRoles());
+        user.setEmail(c.getEmail());
 
         return ResponseEntity.ok().body(userBDRepository.save(user));
     }
@@ -142,5 +138,14 @@ public class UserBDService {
 
         System.out.println(userBDRepository.findByuserName(username));
         return ResponseEntity.ok().body(club);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<UserBD> getUserById(@PathVariable("id") Long idUser){
+
+        UserBD userBD = userBDRepository.findById(idUser)
+                .orElseThrow( () -> new ResourceNotFoundException("Club with id " + idUser + " not found"));
+
+        return ResponseEntity.ok().body(userBD);
     }
 }

@@ -48,18 +48,16 @@ public class ClubService {
         metadata.put("Content-Length", String.valueOf(file.getSize()));
 
         //Check the club exist
-        Club club = getClubs().stream().filter(clubfilter -> clubfilter.getIdClub().equals(idClub))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Club " + idClub + "doesn't exist"));
+        Club club = getClubById(idClub).getBody();
 
         //save the file in the ressource folder
-        String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), club.getIdClub());
+        String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(),"club with id : " + club.getIdClub());
         String fileName = String.format("%s/%s", file.getName(), UUID.randomUUID());
         try {
-            System.out.println("Nom du ficher est : " + fileName);
+            System.out.println("Nom du ficher logo est : " + fileName);
             fileStore.save(path, fileName, Optional.of(metadata), file.getInputStream());
             club.setLogo(fileName);
-            updateClub(idClub, club);
+            clubRepository.save(club);
 
         } catch(IOException e) {
             throw new IllegalStateException(e);
@@ -84,13 +82,13 @@ public class ClubService {
         Club club = getClubById(idClub).getBody();
 
         //save the file in the ressource folder
-        String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), club.getIdClub());
+        String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(),"club with id : " + club.getIdClub());
         String fileName = String.format("%s/%s", file.getName(), UUID.randomUUID());
         try {
-            System.out.println("Nom du ficher est : " + fileName);
+            System.out.println("Nom du ficher cover est : " + fileName);
             fileStore.save(path, fileName, Optional.of(metadata), file.getInputStream());
             club.setCoverImg(fileName);
-            updateClub(idClub, club);
+            clubRepository.save(club);
 
         } catch(IOException e) {
             throw new IllegalStateException(e);
@@ -175,7 +173,7 @@ public class ClubService {
         club.setNomClub(c.getNomClub());
         club.setDescClub(c.getDescClub());
         club.setDateCre(c.getDateCre());
-        club.setCoverImg(c.getCoverImg().get());
+        club.setCoverImg(c.getCoverImg().orElse(null));
         club.setMembres(c.getMembres());
         club.setReferent(c.getReferent());
         club.setStatus(c.isStatus());

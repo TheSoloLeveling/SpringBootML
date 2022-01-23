@@ -25,6 +25,15 @@ public class Club {
     private boolean status;
     private String logo;
     private String coverImg;
+    private String email;
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 
     @JsonIgnore
     @ManyToOne(cascade = {CascadeType.ALL})

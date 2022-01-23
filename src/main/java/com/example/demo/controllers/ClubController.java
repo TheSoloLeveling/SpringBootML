@@ -90,13 +90,13 @@ public class ClubController {
     }
 
     @CrossOrigin("*")
-    @GetMapping(path = "{idUser}/image/downloadCover")
+    @GetMapping(path = "/landing/{idUser}/image/downloadCover")
     public byte[] downloadImageCover(@PathVariable("idUser") Integer idClub) {
         return  clubService.downloadImageCover(idClub);
     }
 
     @CrossOrigin("*")
-    @GetMapping(path = "{idUser}/image/downloadIcon")
+    @GetMapping(path = "/landing/{idUser}/image/downloadIcon")
     public byte[] downloadImageLogo(@PathVariable("idUser") Integer idClub) {
         return  clubService.downloadImageLogo(idClub);
     }

@@ -37,7 +37,7 @@ public class UserBDController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //DO NOT ENABLE              DO NOT ENABLE            DO NOT ENABLE                    DO NOT ENABLE          DO NOT ENABLE
     @PostMapping(
-            path = "{idUser}/image/uploadIcon",
+            path = "/{idUser}/image/uploadIcon",
     consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
     produces = MediaType.APPLICATION_JSON_VALUE)
     public void uploadImageIcon(@PathVariable("idUser") Long idUser,
@@ -46,7 +46,7 @@ public class UserBDController {
     }
 
     @PostMapping(
-            path = "{idUser}/image/uploadCover",
+            path = "/{idUser}/image/uploadCover",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public void uploadImageCover(@PathVariable("idUser") Long idUser,
@@ -54,14 +54,28 @@ public class UserBDController {
         userBDService.uploadImageCover(idUser, file);
     }
 
-    @GetMapping(path = "{idUser}/image/downloadCover")
+    @GetMapping(path = "/landing/{idUser}/image/downloadCover")
     public byte[] downloadImageCover(@PathVariable("idUser") Long idUser) {
         return userBDService.downloadImageCover(idUser);
     }
-    @GetMapping(path = "{idUser}/image/downloadIcon")
+    @GetMapping(path = "/landing/{idUser}/image/downloadIcon")
     public byte[] downloadImageLogo(@PathVariable("idUser") Long idUser) {
         return userBDService.downloadImageIcon(idUser);
     }
     //DO NOT ENABLE              DO NOT ENABLE            DO NOT ENABLE                    DO NOT ENABLE          DO NOT ENABLE
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @CrossOrigin("*")
+    @GetMapping("/findUserById/{id}")
+    public ResponseEntity<UserBD> findUserById(@PathVariable("id") Long idUser) {
+        return userBDService.getUserById(idUser);
+    }
+
+    @CrossOrigin("*")
+    @PutMapping("/updateUser/{id}")
+    public ResponseEntity<UserBD> updateClub(@PathVariable("id") Long idUser,
+                                           @Validated @RequestBody UserBD user)
+            throws ResourceNotFoundException {
+        return userBDService.updateUserBD(idUser, user);
+    }
 }

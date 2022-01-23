@@ -6,10 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="29a2e669-519e-4260-bc3c-56587402857f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/auth/JwtResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/auth/JwtResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/config/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/AuthController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/ClubController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/ClubController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/repositories/ClubRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/repositories/ClubRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/UserBDController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/UserBDController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/Club.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/Club.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/UserBD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/UserBD.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/services/ClubService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/services/ClubService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/services/UserBDService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/services/UserBDService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -205,7 +210,9 @@
       <workItem from="1642522133688" duration="7228000" />
       <workItem from="1642568888215" duration="26173000" />
       <workItem from="1642674082202" duration="7657000" />
-      <workItem from="1642755141325" duration="9567000" />
+      <workItem from="1642755141325" duration="15667000" />
+      <workItem from="1642839585858" duration="19632000" />
+      <workItem from="1642917250981" duration="4680000" />
     </task>
     <servers />
   </component>
@@ -337,19 +344,11 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/services/ClubService.java</url>
-          <line>122</line>
+          <line>120</line>
           <properties class="com.example.demo.services.ClubService" method="createClub">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/services/ClubService.java</url>
-          <line>68</line>
-          <properties class="com.example.demo.services.ClubService" method="uploadImageCover">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

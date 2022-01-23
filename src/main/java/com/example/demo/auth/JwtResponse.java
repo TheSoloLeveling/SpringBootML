@@ -11,6 +11,15 @@ public class JwtResponse {
     private String icon;
     private String name;
     private String email;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -28,13 +37,13 @@ public class JwtResponse {
         return email;
     }
 
-    public JwtResponse(String accessToken, Long id, String username, List<String> roles, String name, String email) {
+    public JwtResponse(String accessToken, Long id, String username, List<String> roles, String password, String email) {
         this.token = accessToken;
         this.id = id;
         this.username = username;
         this.roles = roles;
         this.email = email;
-        this.name = name;
+        this.password = password;
     }
 
     public String getIcon() {

@@ -28,8 +28,17 @@ public class UserBD {
     @Size(max = 120)
     private String password;
 
-    private String icon = "";
-    private String cover = "";
+    private String icon;
+    private String cover;
+    private String email;
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 
     public void setCover(String cover) {
         this.cover = cover;
