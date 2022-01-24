@@ -28,7 +28,7 @@ public class Club {
     private String email;
 
     @Column(name="nbrFollowers ")
-    private Integer nbrFollowers = 0;
+    private Integer nbrFollowers;
 
     public void setNbrFollowers(Integer nbrFollowers) {
         this.nbrFollowers = nbrFollowers;
@@ -47,7 +47,7 @@ public class Club {
     }
 
     @JsonIgnore
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="referent_id")
     private Referent referent;
 

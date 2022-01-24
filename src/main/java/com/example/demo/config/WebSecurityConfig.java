@@ -64,6 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/clubService/getClubs").permitAll()
                 .antMatchers("/api/clubService/landing/**").permitAll()
                 .antMatchers("/api/user/landing/**").permitAll()
+                .antMatchers("/api/user/findClubOwned/**").permitAll()
+                .antMatchers("/api/user/findClubFollowed/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

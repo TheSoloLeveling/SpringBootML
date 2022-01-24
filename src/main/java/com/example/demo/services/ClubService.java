@@ -8,6 +8,7 @@ import com.example.demo.bucket.BucketName;
 import com.example.demo.repositories.ClubRepository;
 import com.example.demo.repositories.FonctionnaliteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -58,7 +59,7 @@ public class ClubService {
         Club club = getClubById(idClub).getBody();
 
         //save the file in the ressource folder
-        String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(),"club with id : " + club.getIdClub());
+        String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), club.getIdClub());
         String fileName = String.format("%s/%s", file.getName(), UUID.randomUUID());
         try {
             System.out.println("Nom du ficher logo est : " + fileName);
@@ -89,7 +90,7 @@ public class ClubService {
         Club club = getClubById(idClub).getBody();
 
         //save the file in the ressource folder
-        String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(),"club with id : " + club.getIdClub());
+        String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), club.getIdClub());
         String fileName = String.format("%s/%s", file.getName(), UUID.randomUUID());
         try {
             System.out.println("Nom du ficher cover est : " + fileName);
@@ -103,6 +104,8 @@ public class ClubService {
     }
 
     public byte[] downloadImageLogo(Integer idClub) {
+        if(idClub == 0)
+            return null;
         Club club = getClubById(idClub).getBody();
         String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), club.getIdClub());
         return club.getLogo()
@@ -112,6 +115,8 @@ public class ClubService {
     }
 
     public byte[] downloadImageCover(Integer idClub) {
+        if(idClub == 0)
+            return null;
         Club club = getClubById(idClub).getBody();
         String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), club.getIdClub());
         return club.getCoverImg()
@@ -124,6 +129,15 @@ public class ClubService {
     public List<Club> getClubs() {
         return clubRepository.findAll();
     }
+
+    public List<Club> findClubsWithSorting(String field, boolean order){
+        if (order)
+            return clubRepository.findAll(Sort.by(Sort.Direction.ASC, field));
+        else
+            return clubRepository.findAll(Sort.by(Sort.Direction.DESC, field));
+    }
+
+    public List<Club> filter
 
     public Club createClub(Club c,Referent referent, Membre president, Membre vicePresident, Membre tresorier, Membre secretaire) throws IOException {
         Date date=new Date();

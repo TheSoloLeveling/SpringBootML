@@ -28,11 +28,16 @@ public class ClubController {
     ClubService clubService;
 
 
-
     @CrossOrigin("*")
     @GetMapping(path = "/getClubs")
     public List<Club> getClubs(){
         return clubService.getClubs();
+    }
+
+    @CrossOrigin("*")
+    @GetMapping(path = "/getClubs/{field}/{order}")
+    public List<Club> getClubsWithSort(@PathVariable String field, @PathVariable boolean order){
+        return clubService.findClubsWithSorting(field, order);
     }
 
     @CrossOrigin("*")

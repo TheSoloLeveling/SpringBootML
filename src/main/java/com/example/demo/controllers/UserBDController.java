@@ -47,6 +47,16 @@ public class UserBDController {
         return userBDService.getUserByusername(username);
     }
 
+    @GetMapping("/findClubOwned/{nameUser}")
+    public List<Club> findClubOwned(@PathVariable String nameUser) {
+        return userBDService.findClubYouOwn(nameUser);
+    }
+
+    @GetMapping("/findClubFollowed/{idUser}")
+    public List<Club> findClubFollowed(@PathVariable Long idUser) {
+        return userBDService.findAllClubsFollowed(idUser);
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //DO NOT ENABLE              DO NOT ENABLE            DO NOT ENABLE                    DO NOT ENABLE          DO NOT ENABLE
     @PostMapping(

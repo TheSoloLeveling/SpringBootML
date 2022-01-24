@@ -1,12 +1,11 @@
 package com.example.demo.services;
 
 import com.example.demo.bucket.BucketName;
-import com.example.demo.entities.Club;
-import com.example.demo.entities.ClubFollowed;
-import com.example.demo.entities.UserBD;
+import com.example.demo.entities.*;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.filestore.FileStore;
 import com.example.demo.repositories.ClubRepository;
+import com.example.demo.repositories.MembreRepository;
 import com.example.demo.repositories.UserBDRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,12 @@ public class UserBDService {
     ClubRepository clubRepository  ;
 
     @Autowired
+    MembreRepository membreRepository;
+
+    @Autowired
     ClubService clubService;
+
+
 
     public UserBDService(FileStore fileStore) {
         this.fileStore = fileStore;
@@ -46,12 +50,13 @@ public class UserBDService {
         else
             club.setNbrFollowers(club.getNbrFollowers() + 1);
 
-
         UserBD userBD = getUserById(idUser).getBody();
         Set<ClubFollowed> clubFollowed = userBD.getFollowedTo();
-        clubFollowed.add(new ClubFollowed(nomClub));
-        userBD.setFollowedTo(clubFollowed);
 
+        clubFollowed.add(new ClubFollowed(nomClub, club.getIdClub()));
+
+        userBD.setFollowedTo(clubFollowed);
+        System.out.println("follow : " + userBD.getFollowedTo());
         clubRepository.save(club);
         userBDRepository.save(userBD);
     }
@@ -63,20 +68,56 @@ public class UserBDService {
 
         UserBD userBD = getUserById(idUser).getBody();
         Set<ClubFollowed> clubFollowed = userBD.getFollowedTo();
-        clubFollowed.remove(findClubFollowed(clubFollowed, idUser));
+        clubFollowed.remove(findClubFollowed(clubFollowed, club.getIdClub()));
 
         userBD.setFollowedTo(clubFollowed);
-
+        System.out.println("unfollow : " + clubFollowed);
         clubRepository.save(club);
         userBDRepository.save(userBD);
     }
 
-    public ClubFollowed findClubFollowed(Set<ClubFollowed> clubFollowed, Long id) {
+    public ClubFollowed findClubFollowed(Set<ClubFollowed> clubFollowed, Integer idClub) {
         for(ClubFollowed s : clubFollowed){
-            if (s.getId().longValue() == id)
+            System.out.println(s.getIdClubFollowed().longValue());
+            if (s.getIdClub().equals(idClub))
                 return  s;
         }
         return null;
+    }
+
+    public List<Club> findClubYouOwn(String nameUserPresident) {
+
+        List<Club> op = new ArrayList<>();
+        Membre president = null;
+        int check = 0;
+        List<Membre> m = membreRepository.findAllByNameUser(nameUserPresident);
+        for (int i = 0; i < m.size(); i++) {
+            Set<Fonctionnalite> s = m.get(i).getFonctionnalites();
+            for(Fonctionnalite fonctionnalite : s)
+                if (fonctionnalite.getName().equals(EFonction.PRESIDENT)){
+                    president = m.get(i);
+                    check = 1;
+                    break;
+                }
+        }
+        if (check == 1){
+            op.add(clubRepository.findByIdClub(president.getIdClub()).get());
+            return op;
+        }
+        else
+            return null;
+
+    }
+
+    public List<Club> findAllClubsFollowed(Long id) {
+
+        List<Club> op = new ArrayList<>();
+        UserBD userBD = getUserById(id).getBody();
+        Set<ClubFollowed> s = userBD.getFollowedTo();
+        for(ClubFollowed clubFollowed : s)
+            op.add(clubService.getClubById(clubFollowed.getIdClub()).getBody());
+
+        return op;
     }
 
     public List<UserBD> getUsers() {

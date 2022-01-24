@@ -25,6 +25,36 @@ public class Membre {
     private String pdpMembre;
     private String email;
 
+    @Column(name = "club_id", unique = true, nullable = false)
+    private Integer idClub;
+
+    @Override
+    public String toString() {
+        return "Membre{" +
+                "idMembre=" + idMembre +
+                ", nom='" + nom + '\'' +
+                ", filiere='" + filiere + '\'' +
+                ", anneeE=" + anneeE +
+                ", status=" + status +
+                ", dateCon=" + dateCon +
+                ", dateCre=" + dateCre +
+                ", pdpMembre='" + pdpMembre + '\'' +
+                ", email='" + email + '\'' +
+                ", idClub=" + idClub +
+                ", idUser=" + idUser +
+                ", nameUser='" + nameUser + '\'' +
+                ", fonctionnalites=" + fonctionnalites +
+                '}';
+    }
+
+    public Integer getIdClub() {
+        return idClub;
+    }
+
+    public void setIdClub(Integer idClub) {
+        this.idClub = idClub;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -145,21 +175,4 @@ public class Membre {
         this.fonctionnalites = fonctionnalites;
     }
 
-    @Override
-    public String toString() {
-        return "Membre{" +
-                "idMembre='" + idMembre + '\'' +
-                ", nom='" + nom + '\'' +
-                ", filiere='" + filiere + '\'' +
-                ", anneeE=" + anneeE +
-                ", status=" + status +
-                ", dateCon=" + dateCon +
-                ", dateCre=" + dateCre +
-                ", pdpMembre='" + pdpMembre + '\'' +
-                ", email='" + email + '\'' +
-                ", idUser=" + idUser +
-                ", nameUser='" + nameUser + '\'' +
-                ", fonctionnalites=" + fonctionnalites +
-                '}';
-    }
 }

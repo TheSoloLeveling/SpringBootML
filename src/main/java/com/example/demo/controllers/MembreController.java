@@ -4,6 +4,7 @@ import com.example.demo.entities.Club;
 import com.example.demo.entities.Membre;
 import com.example.demo.entities.RequestCreateClub;
 import com.example.demo.entities.RequestCreateMembre;
+import com.example.demo.repositories.MembreRepository;
 import com.example.demo.services.MembreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,6 +22,9 @@ public class MembreController {
     @Autowired
     MembreService membreService;
 
+    @Autowired
+    MembreRepository membreRepository;
+
 
     @PostMapping(value = "/save", headers = {
             "content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -37,6 +41,11 @@ public class MembreController {
     @GetMapping("/getAllUsers/{idMembre}")
     public Optional<Membre> getUserDetail(@PathVariable("idMembre") Integer userID) {
         return membreService.getUserData(userID);
+    }
+
+    @GetMapping("/test/{idClub}")
+    public Membre getUserDetail(@RequestParam int idClub) {
+        return null;
     }
 
 

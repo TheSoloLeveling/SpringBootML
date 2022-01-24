@@ -7,6 +7,8 @@ import com.example.demo.repositories.ClubRepository;
 import com.example.demo.repositories.FonctionnaliteRepository;
 import com.example.demo.repositories.MembreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -83,6 +85,8 @@ public class MembreService {
     public Optional<Membre> getUserData(Integer idMembre) {
         return membreRepository.findById(idMembre);
     }
+
+
 
 
 }

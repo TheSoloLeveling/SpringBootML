@@ -8,14 +8,13 @@
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/543d6378-3c53-457b-ba91-821516f8aa43.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/543d6378-3c53-457b-ba91-821516f8aa43.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/543d6378-3c53-457b-ba91-821516f8aa43/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/543d6378-3c53-457b-ba91-821516f8aa43/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/config/WebSecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/ClubController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/ClubController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/MembreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/MembreController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/UserBDController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/UserBDController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/Club.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/Club.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/Referent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/Referent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/UserBD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/UserBD.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/repositories/ClubRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/repositories/ClubRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/repositories/FonctionnaliteRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/repositories/FonctionnaliteRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/ClubFollowed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/ClubFollowed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/Membre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entities/Membre.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/repositories/MembreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/repositories/MembreRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/services/ClubService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/services/ClubService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/services/MembreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/services/MembreService.java" afterDir="false" />
@@ -218,6 +217,8 @@
       <workItem from="1642755141325" duration="15667000" />
       <workItem from="1642839585858" duration="19632000" />
       <workItem from="1642917250981" duration="24198000" />
+      <workItem from="1643005717536" duration="15660000" />
+      <workItem from="1643049840854" duration="9874000" />
     </task>
     <servers />
   </component>
