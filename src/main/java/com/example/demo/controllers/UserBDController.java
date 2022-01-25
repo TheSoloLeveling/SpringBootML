@@ -52,9 +52,9 @@ public class UserBDController {
         return userBDService.findClubYouOwn(nameUser);
     }
 
-    @GetMapping("/findClubFollowed/{idUser}")
-    public List<Club> findClubFollowed(@PathVariable Long idUser) {
-        return userBDService.findAllClubsFollowed(idUser);
+    @GetMapping("/findClubFollowed/{idUser}/{field}/{order}")
+    public List<Club> findClubFollowed(@PathVariable Long idUser, @PathVariable String field, @PathVariable boolean order) {
+        return userBDService.findAllClubsFollowed(idUser, field, order);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

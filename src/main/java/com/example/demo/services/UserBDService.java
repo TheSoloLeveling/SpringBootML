@@ -109,13 +109,26 @@ public class UserBDService {
 
     }
 
-    public List<Club> findAllClubsFollowed(Long id) {
+    public List<Club> findAllClubsFollowed(Long id, String field, boolean order) {
 
         List<Club> op = new ArrayList<>();
         UserBD userBD = getUserById(id).getBody();
         Set<ClubFollowed> s = userBD.getFollowedTo();
         for(ClubFollowed clubFollowed : s)
             op.add(clubService.getClubById(clubFollowed.getIdClub()).getBody());
+
+        if (field.equals("nomClub") && order)
+             op.sort(Comparator.comparing(Club::getNomClub));
+        if (field.equals("nomClub") && !order)
+            op.sort(Comparator.comparing(Club::getNomClub).reversed());
+        if (field.equals("dateCre") && order)
+            op.sort(Comparator.comparing(Club::getDateCre));
+        if (field.equals("dateCre") && !order)
+            op.sort(Comparator.comparing(Club::getDateCre).reversed());
+        if (field.equals("nbrFollowers") && order)
+            op.sort(Comparator.comparing(Club::getNbrFollowers));
+        if (field.equals("nbrFollowers") && !order)
+            op.sort(Comparator.comparing(Club::getNbrFollowers).reversed());
 
         return op;
     }

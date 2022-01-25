@@ -18,5 +18,6 @@ public interface MembreRepository extends JpaRepository<Membre, Integer> {
 
     List<Membre> findAllByNameUser(String nameUser);
 
+    List<Membre> findAllByIdUser(Long id);
 
 }

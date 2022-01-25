@@ -77,6 +77,30 @@ public class MembreService {
     }
 
 
+    public List<Club> findAllClubsJoined(Long id, String field, boolean order) {
+
+        List<Club> op = new ArrayList<>();
+        List<Membre> m = membreRepository.findAllByIdUser(id);
+        System.out.println(m);
+        for (Membre membre : m) {
+            op.add(clubService.getClubById(membre.getIdClub()).getBody());
+        }
+
+        if (field.equals("nomClub") && order)
+            op.sort(Comparator.comparing(Club::getNomClub));
+        if (field.equals("nomClub") && !order)
+            op.sort(Comparator.comparing(Club::getNomClub).reversed());
+        if (field.equals("dateCre") && order)
+            op.sort(Comparator.comparing(Club::getDateCre));
+        if (field.equals("dateCre") && !order)
+            op.sort(Comparator.comparing(Club::getDateCre).reversed());
+        if (field.equals("nbrFollowers") && order)
+            op.sort(Comparator.comparing(Club::getNbrFollowers));
+        if (field.equals("nbrFollowers") && !order)
+            op.sort(Comparator.comparing(Club::getNbrFollowers).reversed());
+
+        return op;
+    }
 
     public ArrayList<Membre> retrieveAllUserDetails(){
         return (ArrayList<Membre>) membreRepository.findAll();

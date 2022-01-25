@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin("*")
@@ -46,6 +47,11 @@ public class MembreController {
     @GetMapping("/test/{idClub}")
     public Membre getUserDetail(@RequestParam int idClub) {
         return null;
+    }
+
+    @GetMapping("/findClubJoined/{idUser}/{field}/{order}")
+    public List<Club> findClubFollowed(@PathVariable Long idUser, @PathVariable String field, @PathVariable boolean order) {
+        return membreService.findAllClubsJoined(idUser, field, order);
     }
 
 
