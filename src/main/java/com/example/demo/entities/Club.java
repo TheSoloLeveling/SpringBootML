@@ -65,18 +65,6 @@ public class Club {
         this.descClub = descClub;
     }
 
-    public Membre findMember(EFonction e) {
-
-        Fonctionnalite f = new Fonctionnalite(e);
-        for (Membre membre : membres) {
-            if (membre.getFonctionnalites().contains(f)){
-                System.out.println("Member with function : " + e.name() +" is found");
-                return membre;
-            }
-        }
-        System.out.println(" Error: Member with function : " + e.name() + " not found");
-        return null;
-    }
 
     public void setIdClub(Integer idClub) {
         this.idClub = idClub;

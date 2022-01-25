@@ -37,7 +37,7 @@ public class MembreService {
 
 
     public void submitMetaDataOfUser(String nom, String filiere, int anneeE
-                                       , String email, String nameUser, String Raison,
+                                       , String email, String nameUser, String raison,
                                        String nomClub) {
 
         Date date=new Date();
@@ -63,18 +63,42 @@ public class MembreService {
         fonctionsM.add(fonctionnaliteT);
         membre.setFonctionnalites(fonctionsM);
 
-       // emailService.sendEmail(club.findMember(EFonction.PRESIDENT).getEmail(),
-        //        "New Member to your club",
-         //       membre.toString());
+        emailService.sendEmail(
+                findMember(club, EFonction.PRESIDENT).getEmail(),
+               "New Member to your club",
+               membre.toString() + " \n Reason of joinning the club : \n" + raison);
+
+        emailService.sendEmail(
+                email,
+                "Join Club " + nomClub,
+                "Your demand to join the club has been submited : \n " + membre.toString());
 
         Set<Membre> m = club.getMembres();
         m.add(membre);
         club.setMembres(m);
 
-
         clubRepository.save(club);
 
     }
+
+    public Membre findMember(Club c, EFonction e) {
+
+        Set<Membre> membres = c.getMembres();
+
+        for (Membre membre : membres) {
+            Set<Fonctionnalite> fonctionnalites = membre.getFonctionnalites();
+                for (Fonctionnalite fonctionnalite : fonctionnalites) {
+                    if (fonctionnalite.getIdFonct() == 1){
+                        System.out.println("Member with function : " + e.name() +" is found");
+                        return membre;
+                    }
+                }
+        }
+        System.out.println(" Error: Member with function : " + e.name() + " not found");
+        return null;
+    }
+
+
 
 
     public List<Club> findAllClubsJoined(Long id, String field, boolean order) {

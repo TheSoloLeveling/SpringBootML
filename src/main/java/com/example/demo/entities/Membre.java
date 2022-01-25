@@ -25,7 +25,7 @@ public class Membre {
     private String pdpMembre;
     private String email;
 
-    @Column(name = "club_id", unique = true, nullable = false)
+    @Column(name = "club_id")
     private Integer idClub;
 
     @Override
