@@ -23,14 +23,14 @@ public class CommentService {
         long time=date.getTime();
         Timestamp dateTime=new Timestamp(time);
 
-        comment.setCommentID(UUID.randomUUID());
+
         comment.setTimestamp(dateTime);
         return commentRepository.save(comment);
     }
 
-    public ArrayList<Comment> getAllComment(UUID postID){
+    public ArrayList<Comment> getAllComment(Integer postID){
         ArrayList<Comment> result=new ArrayList<Comment>();
-        result = commentRepository.findAllByPostID(postID);
+        result = commentRepository.findAllByIdPost(postID);
         return result;
     }
 }

@@ -1,8 +1,8 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entities.Club;
+import com.example.demo.entities.Fonctionnalite;
 import com.example.demo.entities.Membre;
-import com.example.demo.entities.RequestCreateClub;
 import com.example.demo.entities.RequestCreateMembre;
 import com.example.demo.repositories.MembreRepository;
 import com.example.demo.services.MembreService;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,7 +50,22 @@ public class MembreController {
 
     @GetMapping("/findClubJoined/{idUser}/{field}/{order}")
     public List<Club> findClubFollowed(@PathVariable Long idUser, @PathVariable String field, @PathVariable boolean order) {
-        return membreService.findAllClubsJoined(idUser, field, order);
+        return membreService.findAllClubsJoinedWithFilter(idUser, field, order);
+    }
+
+    @GetMapping("/checkPresident/{nameClub}/{idUser}")
+    public boolean checkPresidentOfClub(@PathVariable String nameClub, @PathVariable Long idUser) {
+        return membreService.isPresidenOfClub(nameClub, idUser);
+    }
+
+    @GetMapping("/checkEMember/{nameClub}/{idUser}")
+    public boolean checkEMember(@PathVariable String nameClub, @PathVariable Long idUser) {
+        return membreService.isEMember(nameClub, idUser);
+    }
+
+    @GetMapping("/findMemberRole/{idClub}/{idUser}")
+    public String findMemberRole(@PathVariable Integer idClub, @PathVariable Long idUser) {
+        return membreService.findMemberRole(idUser, idClub);
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import com.example.demo.Feed.Post;
 import com.example.demo.repositories.FonctionnaliteRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
@@ -55,6 +56,18 @@ public class Club {
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name="club_id", referencedColumnName = "idClub")
     private Set<Membre> membres;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name="club_id", referencedColumnName = "idClub")
+    private Set<Post> posts;
+
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
+    }
 
     public Club() {
 

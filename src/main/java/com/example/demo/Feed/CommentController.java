@@ -20,7 +20,7 @@ public class CommentController {
     }
 
     @GetMapping("/getAllComments/{postID}")
-    public ArrayList<Comment> getAllComments(@PathVariable("postID") UUID postID){
+    public ArrayList<Comment> getAllComments(@PathVariable("postID") Integer postID){
         return commentService.getAllComment(postID);
 
     }

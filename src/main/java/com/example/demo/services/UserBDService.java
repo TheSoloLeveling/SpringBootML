@@ -109,6 +109,7 @@ public class UserBDService {
 
     }
 
+
     public List<Club> findAllClubsFollowed(Long id, String field, boolean order) {
 
         List<Club> op = new ArrayList<>();
@@ -129,7 +130,8 @@ public class UserBDService {
             op.sort(Comparator.comparing(Club::getNbrFollowers));
         if (field.equals("nbrFollowers") && !order)
             op.sort(Comparator.comparing(Club::getNbrFollowers).reversed());
-
+        if (field.equals("null"))
+            return op;
         return op;
     }
 

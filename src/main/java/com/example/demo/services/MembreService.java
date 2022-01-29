@@ -98,10 +98,28 @@ public class MembreService {
         return null;
     }
 
+    public boolean isPresidenOfClub(String nameClub, Long id) {
 
+        Membre m = findMember(clubService.getClubBynomClub(nameClub).getBody(), EFonction.PRESIDENT);
+        if(m != null)
+            return m.getIdUser().equals(id);
+        return false;
+    }
 
+    public boolean isEMember(String nameClub, Long id) {
 
-    public List<Club> findAllClubsJoined(Long id, String field, boolean order) {
+        Membre president = findMember(clubService.getClubBynomClub(nameClub).getBody(), EFonction.PRESIDENT);
+        Membre vicePresident = findMember(clubService.getClubBynomClub(nameClub).getBody(), EFonction.VICEPRESIDENT);
+        Membre secretaire = findMember(clubService.getClubBynomClub(nameClub).getBody(), EFonction.SECRETARY);
+        Membre tresorier = findMember(clubService.getClubBynomClub(nameClub).getBody(), EFonction.TREASURER);
+
+        if(president != null && vicePresident != null &&  secretaire != null && tresorier != null )
+            return president.getIdUser().equals(id) || vicePresident.getIdUser().equals(id) ||
+                    tresorier.getIdUser().equals(id) || secretaire.getIdUser().equals(id);
+        return false;
+    }
+
+    public List<Club> findAllClubsJoinedWithFilter(Long id, String field, boolean order) {
 
         List<Club> op = new ArrayList<>();
         List<Membre> m = membreRepository.findAllByIdUser(id);
@@ -124,6 +142,16 @@ public class MembreService {
             op.sort(Comparator.comparing(Club::getNbrFollowers).reversed());
 
         return op;
+    }
+
+    public Membre findMember(Long idUser, Integer idClub) {
+        return membreRepository.findByIdClubAndIdUser(idClub, idUser);
+    }
+    public String findMemberRole(Long idUser, Integer idClub) {
+        Membre m = findMember(idUser, idClub);
+        for (Fonctionnalite fonctionnalite : m.getFonctionnalites())
+            return fonctionnalite.getName().name();
+        return null;
     }
 
     public ArrayList<Membre> retrieveAllUserDetails(){

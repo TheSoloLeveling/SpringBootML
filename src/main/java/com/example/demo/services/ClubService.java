@@ -26,6 +26,9 @@ import static org.apache.http.entity.ContentType.*;
 public class ClubService {
 
     private final FileStore fileStore;
+    public ClubService(FileStore fileStore) {
+        this.fileStore = fileStore;
+    }
 
     @Autowired
     ClubRepository clubRepository;
@@ -36,9 +39,7 @@ public class ClubService {
     @Autowired
     private UserBDService userBDService;
 
-    public ClubService(FileStore fileStore) {
-        this.fileStore = fileStore;
-    }
+
 
 
     public void uploadImageLogo(Integer idClub, MultipartFile file) throws IOException {

@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.Feed.PostRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -10,7 +12,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 
 public class GesClubApplication {
 
+
     public static void main(String[] args) {
+
         SpringApplication.run(GesClubApplication.class, args);
 
 

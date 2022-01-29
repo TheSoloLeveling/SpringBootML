@@ -5,19 +5,44 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 public class Comment {
 
     @Id
-    private UUID commentID;
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name="commentID", unique = true, nullable = false)
+    private Integer commentID;
 
-    private UUID postID;
     private String userID;
+
+    public Integer getIdPost() {
+        return idPost;
+    }
+
+    public void setIdPost(Integer idPost) {
+        this.idPost = idPost;
+    }
+
+    @Column(name = "post_id")
+    private Integer idPost;
 
     private String userImage;
     private String userName;
+    private String text;
+
+    @Column(name = "comment_id")
+    private Integer idSubComment;
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 
     public String getUserImage() {
         return userImage;
@@ -35,39 +60,29 @@ public class Comment {
         this.userName = userName;
     }
 
-    private String comment;
-    private Timestamp timestamp;
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name="comment_id", referencedColumnName = "commentID")
+    private Set<Comment> comments;
 
-    public Comment() {
-        super();
-    }
-
-    public Comment(UUID commentID, UUID postID, String userID, String userImage, String userName, String comment,
-                   Timestamp timestamp) {
-        super();
-        this.commentID = commentID;
-        this.postID = postID;
-        this.userID = userID;
+    public Comment(String userImage, String userName, String text, Set<Comment> comments, Timestamp timestamp) {
         this.userImage = userImage;
         this.userName = userName;
-        this.comment = comment;
+        this.text = text;
+        this.comments = comments;
         this.timestamp = timestamp;
     }
 
-    public UUID getCommentID() {
+    public Comment() {
+    }
+
+    private Timestamp timestamp;
+
+    public Integer getCommentID() {
         return commentID;
     }
 
-    public void setCommentID(UUID commentID) {
+    public void setCommentID(Integer commentID) {
         this.commentID = commentID;
-    }
-
-    public UUID getPostID() {
-        return postID;
-    }
-
-    public void setPostID(UUID postID) {
-        this.postID = postID;
     }
 
     public String getUserID() {
@@ -78,12 +93,20 @@ public class Comment {
         this.userID = userID;
     }
 
-    public String getComment() {
-        return comment;
+    public Integer getIdSubComment() {
+        return idSubComment;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setIdSubComment(Integer idSubComment) {
+        this.idSubComment = idSubComment;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     public Timestamp getTimestamp() {

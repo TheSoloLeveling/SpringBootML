@@ -63,6 +63,7 @@ public class Membre {
         return email;
     }
 
+    @Column(nullable = false)
     private Long idUser;
     private String nameUser;
 

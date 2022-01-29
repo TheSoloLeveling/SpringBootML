@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -12,12 +13,16 @@ import java.util.UUID;
 public class Post {
 
     @Id
-    private UUID postID;
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name="postID", unique = true, nullable = false)
+    private Integer postID;
 
+    @Column(name = "club_id")
+    private Integer idClub;
 
-    private String userID;
+    private Long userID;
     private String userName;
-    private String imageURL;
+
 
     private String description;
     private String postImgURL;
@@ -25,102 +30,91 @@ public class Post {
     private int likes;
     private Timestamp dateTime;
 
-
-    public Post() {
-
+    public Integer getIdClub() {
+        return idClub;
     }
 
+    public void setIdClub(Integer idClub) {
+        this.idClub = idClub;
+    }
 
-    public Post(UUID postID, String userID, String userName, String imageURL, String description, String postImgURL,
-                int likes, Timestamp dateTime) {
-        super();
-        this.postID = postID;
-        this.userID = userID;
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name="post_id", referencedColumnName = "postID")
+    private Set<Comment> comments;
+
+    public Post() {
+    }
+
+    public Post(String userName, String description, String postImgURL, int likes, Timestamp dateTime, Set<Comment> comments) {
         this.userName = userName;
-        this.imageURL = imageURL;
         this.description = description;
         this.postImgURL = postImgURL;
         this.likes = likes;
         this.dateTime = dateTime;
+        this.comments = comments;
     }
 
-
-    public UUID getPostID() {
+    public Integer getPostID() {
         return postID;
     }
 
-
-    public void setPostID(UUID postID) {
+    public void setPostID(Integer postID) {
         this.postID = postID;
     }
 
-
-    public String getUserID() {
+    public Long getUserID() {
         return userID;
     }
 
-
-    public void setUserID(String userID) {
+    public void setUserID(Long userID) {
         this.userID = userID;
     }
-
 
     public String getUserName() {
         return userName;
     }
 
-
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
-
-    public String getImageURL() {
-        return imageURL;
-    }
-
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
-
 
     public String getDescription() {
         return description;
     }
 
-
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     public String getPostImgURL() {
         return postImgURL;
     }
 
-
     public void setPostImgURL(String postImgURL) {
         this.postImgURL = postImgURL;
     }
-
 
     public int getLikes() {
         return likes;
     }
 
-
     public void setLikes(int likes) {
         this.likes = likes;
     }
-
 
     public Timestamp getDateTime() {
         return dateTime;
     }
 
-
     public void setDateTime(Timestamp dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 }
