@@ -1,6 +1,7 @@
 package com.example.demo.Feed;
 
 import com.example.demo.bucket.BucketName;
+import com.example.demo.config.ServletCustomizer;
 import com.example.demo.entities.Club;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.filestore.FileStore;
@@ -18,6 +19,8 @@ import java.util.*;
 
 import static org.apache.http.entity.ContentType.*;
 import static org.apache.http.entity.ContentType.IMAGE_WEBP;
+
+
 
 @Service
 public class PostService {
@@ -70,9 +73,53 @@ public class PostService {
         }
     }
 
+    public void uploadVideoPost(Integer idPost, MultipartFile file) throws IOException {
+        if (file.isEmpty()){
+            throw new IllegalStateException("Cannot upload empty file");
+        }
+
+
+        //create metadata for the file
+        Map<String, String> metadata = new HashMap<>();
+        metadata.put("Content-Type", file.getContentType());
+        metadata.put("Content-Length", String.valueOf(file.getSize()));
+
+        //Check the club exist
+        Post post = postRepository.getById(idPost);
+
+        //save the file in the ressource folder
+        String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), post.getIdClub());
+        String fileName = String.format("%s/%s", file.getName(), UUID.randomUUID());
+        try {
+            System.out.println("Nom du ficher logo est : " + fileName);
+            fileStore.save(path, fileName, Optional.of(metadata), file.getInputStream());
+            post.setPostVideo(fileName);
+            postRepository.save(post);
+
+        } catch(IOException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public byte[] downloadImage(Integer postID) {
+        if(postID == 0)
+            return null;
+        Post post = findPostById(postID).getBody();
+        String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), post.getIdClub());
+        return post.getPostImgURL()
+                .map(key -> fileStore.download(path, key))
+                .orElse(new byte[0]);
+
+    }
+
+    public Post getLastPost() {
+        return postRepository.findTopByOrderByDateTimeDesc();
+    }
+
     public Post submitPostToDB(String desc, String nameClub, Long idUser, String userName) {
 
         Post body = new Post();
+        body.setClubName(nameClub);
         body.setDescription(desc);
         body.setUserID(idUser);
         body.setUserName(userName);
@@ -87,7 +134,7 @@ public class PostService {
         Set<Post> p = c.getPosts();
         p.add(body);
         c.setPosts(p);
-        clubRepository.save(c);
+        clubRepository.saveAndFlush(c);
         return body;
     }
 

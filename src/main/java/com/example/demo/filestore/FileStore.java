@@ -37,7 +37,9 @@ public class FileStore {
 
     public void save(String path, String fileName, Optional<Map<String, String>> optionalMetaData, InputStream inputStream){
 
+
         ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setSSEAlgorithm(ObjectMetadata.AES_256_SERVER_SIDE_ENCRYPTION);
         optionalMetaData.ifPresent(map -> {
             if (!map.isEmpty()) {
                 map.forEach(metadata::addUserMetadata);

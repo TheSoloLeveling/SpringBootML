@@ -104,6 +104,7 @@ public class ClubService {
         }
     }
 
+
     public byte[] downloadImageLogo(Integer idClub) {
         if(idClub == 0)
             return null;

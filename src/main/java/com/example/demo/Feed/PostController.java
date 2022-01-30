@@ -29,6 +29,21 @@ public class PostController {
         postService.uploadImagePost(idPost, file);
     }
 
+    @CrossOrigin("*")
+    @PostMapping(
+            path = "{idUser}/image/uploadVideo",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public void uploadVideoPost(@PathVariable("idUser") Integer idPost,
+                                @RequestParam("file") MultipartFile file) throws IOException {
+        postService.uploadVideoPost(idPost, file);
+    }
+
+    @CrossOrigin("*")
+    @GetMapping(path = "/landing/{idPost}/image/downloadImagePost")
+    public byte[] downloadImagePost(@PathVariable("idPost") Integer idPost) {
+        return  postService.downloadImage(idPost);
+    }
 
     @PostMapping("/save")
     public Post submitPost(@RequestBody PostRequest body){
@@ -40,6 +55,11 @@ public class PostController {
         List<Post> result=postService.retrivePostFromDB();
         result.sort((e1, e2) -> e2.getDateTime().compareTo(e1.getDateTime()));
         return result;
+    }
+
+    @GetMapping("/getLastPost")
+    public Post retrieveLastPost(){
+        return postService.getLastPost();
     }
 
     @GetMapping("/getCommentsSize/{postId}")

@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,15 +21,34 @@ public class Post {
     @Column(name = "club_id")
     private Integer idClub;
 
+    private String clubName;
+
     private Long userID;
     private String userName;
 
 
     private String description;
     private String postImgURL;
+    private String postVideo;
 
     private int likes;
     private Timestamp dateTime;
+
+    public String getClubName() {
+        return clubName;
+    }
+
+    public void setClubName(String clubName) {
+        this.clubName = clubName;
+    }
+
+    public Optional<String> getPostVideo() {
+        return Optional.ofNullable(postVideo);
+    }
+
+    public void setPostVideo(String postVideo) {
+        this.postVideo = postVideo;
+    }
 
     public Integer getIdClub() {
         return idClub;
@@ -86,8 +106,8 @@ public class Post {
         this.description = description;
     }
 
-    public String getPostImgURL() {
-        return postImgURL;
+    public Optional<String> getPostImgURL() {
+        return Optional.ofNullable(postImgURL);
     }
 
     public void setPostImgURL(String postImgURL) {
