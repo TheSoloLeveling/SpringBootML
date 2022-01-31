@@ -40,6 +40,11 @@ public class ClubController {
         return clubService.findClubsWithSorting(field, order);
     }
 
+    @GetMapping("/findClubByPost/{idPost}")
+    public Club findClubByPost(@PathVariable Integer idPost) {
+        return clubService.getClubByPost(idPost);
+    }
+
     @CrossOrigin("*")
     @PostMapping(value = "/save", headers = {
             "content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE)

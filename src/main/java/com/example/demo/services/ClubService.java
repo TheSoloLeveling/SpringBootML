@@ -1,6 +1,8 @@
 package com.example.demo.services;
 
 
+import com.example.demo.Feed.Post;
+import com.example.demo.Feed.PostRepository;
 import com.example.demo.entities.*;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.filestore.FileStore;
@@ -39,8 +41,8 @@ public class ClubService {
     @Autowired
     private UserBDService userBDService;
 
-
-
+    @Autowired
+    PostRepository postRepository;
 
     public void uploadImageLogo(Integer idClub, MultipartFile file) throws IOException {
         if (file.isEmpty()){
@@ -127,9 +129,14 @@ public class ClubService {
 
     }
 
-
     public List<Club> getClubs() {
         return clubRepository.findAll();
+    }
+
+    public Club getClubByPost(Integer idPost) {
+        Post post = postRepository.getById(idPost);
+
+        return clubRepository.getById(post.getIdClub());
     }
 
     public List<Club> findClubsWithSorting(String field, boolean order){

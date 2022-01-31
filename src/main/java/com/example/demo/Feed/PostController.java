@@ -1,5 +1,6 @@
 package com.example.demo.Feed;
 
+import com.example.demo.entities.Club;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -61,6 +62,8 @@ public class PostController {
     public Post retrieveLastPost(){
         return postService.getLastPost();
     }
+
+
 
     @GetMapping("/getCommentsSize/{postId}")
     public int retrieveCommentsSize(@PathVariable("postId") Integer postID){

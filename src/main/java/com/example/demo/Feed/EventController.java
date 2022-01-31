@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/eventService")
@@ -15,6 +16,34 @@ public class EventController {
 
     @Autowired
     EventService eventService;
+
+    @CrossOrigin("*")
+    @GetMapping(path = "/getEvents")
+    public List<ClubEvent> getEvents(){
+        return eventService.getEvents();
+    }
+
+    @CrossOrigin("*")
+    @GetMapping(path = "/getEvents/{field}/{order}")
+    public List<ClubEvent> getClubsWithSort(@PathVariable String field, @PathVariable boolean order){
+        return eventService.findEventsWithSorting(field, order);
+    }
+
+    @GetMapping("/findEventsOfClubsFollowed/{idUser}/{field}/{order}")
+    public List<ClubEvent> findEventOfClubsFollowed(@PathVariable Long idUser, @PathVariable String field, @PathVariable boolean order) {
+        return eventService.findAllEventsOfClubsFollowed(idUser, field, order);
+    }
+
+    @GetMapping("/findEventsOfClubJoined/{idUser}/{field}/{order}")
+    public List<ClubEvent> findEventOfClubsJoined(@PathVariable Long idUser, @PathVariable String field, @PathVariable boolean order) {
+        return eventService.findAllEventsOfClubsJoined(idUser, field, order);
+    }
+
+    @GetMapping("/findEventOfClubOwned/{nameUser}")
+    public List<ClubEvent> findClubOwned(@PathVariable String nameUser) {
+        return eventService.findEventOfClubYouOwn(nameUser);
+    }
+
 
     @CrossOrigin("*")
     @GetMapping(path = "/landing/{idEvent}/file/downloadEventFile")
