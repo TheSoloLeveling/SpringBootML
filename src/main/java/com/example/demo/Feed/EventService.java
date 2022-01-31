@@ -225,4 +225,18 @@ public class EventService {
         return followedEvents;
 
     }
+
+    public String checkEventStatus(Integer idEvent) {
+        ClubEvent clubEvent = eventRepository.getById(idEvent);
+
+        Timestamp actualDate = new Timestamp(System.currentTimeMillis());
+        if(actualDate.before(clubEvent.getStartDate()))
+            return "Pending";
+        if(actualDate.after(clubEvent.getStartDate()) && actualDate.before(clubEvent.getEndDate()))
+            return "On going";
+        if(actualDate.after(clubEvent.getEndDate()))
+            return "Completed";
+
+        return "event creation still on process";
+    }
 }

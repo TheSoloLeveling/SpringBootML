@@ -21,6 +21,7 @@ public class ClubEvent {
 
     private String name;
     private String eventDesc;
+    private String status;
 
 
     private Timestamp startDate;
@@ -33,6 +34,14 @@ public class ClubEvent {
 
     private int actualP;
     private String materiels;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Optional<String> getMateriels() {
         return Optional.ofNullable(materiels);

@@ -29,6 +29,12 @@ public class EventController {
         return eventService.findEventsWithSorting(field, order);
     }
 
+    @CrossOrigin("*")
+    @GetMapping(path = "/checkEventStatus/{idEvent}")
+    public String checkEventStatus(@PathVariable Integer idEvent){
+        return eventService.checkEventStatus(idEvent);
+    }
+
     @GetMapping("/findEventsOfClubsFollowed/{idUser}/{field}/{order}")
     public List<ClubEvent> findEventOfClubsFollowed(@PathVariable Long idUser, @PathVariable String field, @PathVariable boolean order) {
         return eventService.findAllEventsOfClubsFollowed(idUser, field, order);
