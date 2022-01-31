@@ -5,17 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29a2e669-519e-4260-bc3c-56587402857f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Feed/ClubEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/543d6378-3c53-457b-ba91-821516f8aa43.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/543d6378-3c53-457b-ba91-821516f8aa43.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/543d6378-3c53-457b-ba91-821516f8aa43/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/543d6378-3c53-457b-ba91-821516f8aa43/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Feed/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Feed/Post.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Feed/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Feed/PostController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Feed/PostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Feed/PostRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Feed/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Feed/PostService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/config/AmazonConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/config/AmazonConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/config/WebSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/ClubController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/controllers/ClubController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/filestore/FileStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/filestore/FileStore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/services/ClubService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/services/ClubService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Feed/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Feed/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Feed/Event.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,7 +216,8 @@
       <workItem from="1643377366605" duration="2890000" />
       <workItem from="1643391972029" duration="2108000" />
       <workItem from="1643445767411" duration="28218000" />
-      <workItem from="1643527428144" duration="14895000" />
+      <workItem from="1643527428144" duration="20622000" />
+      <workItem from="1643607431064" duration="7203000" />
     </task>
     <servers />
   </component>

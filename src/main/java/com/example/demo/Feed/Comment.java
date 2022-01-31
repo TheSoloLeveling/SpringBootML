@@ -33,9 +33,6 @@ public class Comment {
     private String userName;
     private String text;
 
-    @Column(name = "comment_id")
-    private Integer idSubComment;
-
     public String getText() {
         return text;
     }
@@ -60,15 +57,12 @@ public class Comment {
         this.userName = userName;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @JoinColumn(name="comment_id", referencedColumnName = "commentID")
-    private Set<Comment> comments;
 
-    public Comment(String userImage, String userName, String text, Set<Comment> comments, Timestamp timestamp) {
+    public Comment(String userImage, String userName, String text, Timestamp timestamp) {
         this.userImage = userImage;
         this.userName = userName;
         this.text = text;
-        this.comments = comments;
+
         this.timestamp = timestamp;
     }
 
@@ -91,22 +85,6 @@ public class Comment {
 
     public void setUserID(String userID) {
         this.userID = userID;
-    }
-
-    public Integer getIdSubComment() {
-        return idSubComment;
-    }
-
-    public void setIdSubComment(Integer idSubComment) {
-        this.idSubComment = idSubComment;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
     }
 
     public Timestamp getTimestamp() {
