@@ -3,10 +3,14 @@ package com.example.demo.Feed;
 import com.example.demo.bucket.BucketName;
 import com.example.demo.config.ServletCustomizer;
 import com.example.demo.entities.Club;
+import com.example.demo.entities.UserBD;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.filestore.FileStore;
 import com.example.demo.repositories.ClubRepository;
+import com.example.demo.repositories.MembreRepository;
+import com.example.demo.repositories.UserBDRepository;
 import com.example.demo.services.ClubService;
+import com.example.demo.services.MembreService;
 import com.example.demo.services.UserBDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +45,15 @@ public class PostService {
 
     @Autowired
     ClubRepository clubRepository;
+
+    @Autowired
+    CommentRepository commentRepository;
+
+    @Autowired
+    UserBDRepository userBDRepository;
+
+    @Autowired
+    MembreService membreService;
 
     public void uploadImagePost(Integer idPost, MultipartFile file) throws IOException {
         if (file.isEmpty()){
@@ -164,6 +177,30 @@ public class PostService {
         }
 
         return p;
+    }
+
+    public Comment saveComment(Integer idClub, Integer idPost, Long idUser, String text){
+        Comment comment = new Comment(idUser, idClub, idPost, text);
+
+        Date date=new Date();
+        long time=date.getTime();
+        Timestamp dateTime=new Timestamp(time);
+
+        comment.setDateTime(dateTime);
+
+        Club club = clubRepository.getById(idClub);
+        comment.setNomClub(club.getNomClub());
+
+        UserBD userBD = userBDRepository.getById(idUser);        comment.setUsername(userBD.getUserName());
+        comment.setUserIcon(userBD.getIcon().get());
+        comment.setUserRole(membreService.findMemberRole(idUser, idClub));
+
+        Post post = postRepository.getById(idPost);
+        Set<Comment> c = post.getComments();
+        c.add(comment);
+        post.setComments(c);
+        postRepository.save(post);
+        return comment;
     }
 
     public List<Post> retrievePostsClub(String nameClub) {

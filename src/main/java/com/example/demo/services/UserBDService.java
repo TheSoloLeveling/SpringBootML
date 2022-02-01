@@ -76,6 +76,13 @@ public class UserBDService {
         userBDRepository.save(userBD);
     }
 
+    public boolean checkClubFollowed(Long idUser, String nameClub) {
+        UserBD userBD = userBDRepository.getById(idUser);
+        Club club = clubService.getClubBynomClub(nameClub).getBody();
+        Set<ClubFollowed> clubFollowed = userBD.getFollowedTo();
+
+        return findClubFollowed(clubFollowed, club.getIdClub()) != null;
+    }
     public ClubFollowed findClubFollowed(Set<ClubFollowed> clubFollowed, Integer idClub) {
         for(ClubFollowed s : clubFollowed){
             System.out.println(s.getIdClubFollowed().longValue());

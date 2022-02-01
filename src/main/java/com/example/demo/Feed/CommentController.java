@@ -12,12 +12,11 @@ import java.util.UUID;
 public class CommentController {
 
     @Autowired
+    PostService postService;
+
+    @Autowired
     CommentService commentService;
 
-    @PostMapping("/save")
-    public Comment saveComment(@RequestBody Comment comment) {
-        return commentService.saveComment(comment);
-    }
 
     @GetMapping("/getAllComments/{postID}")
     public ArrayList<Comment> getAllComments(@PathVariable("postID") Integer postID){

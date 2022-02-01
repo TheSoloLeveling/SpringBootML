@@ -16,60 +16,77 @@ public class Comment {
     @Column(name="commentID", unique = true, nullable = false)
     private Integer commentID;
 
-    private String userID;
-
-    public Integer getIdPost() {
-        return idPost;
-    }
-
-    public void setIdPost(Integer idPost) {
-        this.idPost = idPost;
-    }
+    private Long userID;
+    private Integer idClub;
 
     @Column(name = "post_id")
     private Integer idPost;
 
-    private String userImage;
-    private String userName;
     private String text;
+    private Timestamp dateTime;
 
-    public String getText() {
-        return text;
+    private String userIcon;
+    private String username;
+    private String nomClub;
+    private String userRole;
+
+    public String getUserIcon() {
+        return userIcon;
     }
 
-    public void setText(String text) {
+    public void setUserIcon(String userIcon) {
+        this.userIcon = userIcon;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getNomClub() {
+        return nomClub;
+    }
+
+    public void setNomClub(String nomClub) {
+        this.nomClub = nomClub;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
+    public Integer getIdClub() {
+        return idClub;
+    }
+
+    public void setIdClub(Integer idClub) {
+        this.idClub = idClub;
+    }
+
+    public Timestamp getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(Timestamp dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public Comment(Long userID, Integer idClub, Integer idPost, String text) {
+        this.userID = userID;
+        this.idClub = idClub;
+        this.idPost = idPost;
         this.text = text;
-    }
-
-    public String getUserImage() {
-        return userImage;
-    }
-
-    public void setUserImage(String userImage) {
-        this.userImage = userImage;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-
-    public Comment(String userImage, String userName, String text, Timestamp timestamp) {
-        this.userImage = userImage;
-        this.userName = userName;
-        this.text = text;
-
-        this.timestamp = timestamp;
     }
 
     public Comment() {
     }
-
-    private Timestamp timestamp;
 
     public Integer getCommentID() {
         return commentID;
@@ -79,19 +96,31 @@ public class Comment {
         this.commentID = commentID;
     }
 
-    public String getUserID() {
+    public Long getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(Long userID) {
         this.userID = userID;
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public Integer getClub() {
+        return idClub;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public Integer getIdPost() {
+        return idPost;
+    }
+
+    public void setIdPost(Integer idPost) {
+        this.idPost = idPost;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }

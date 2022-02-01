@@ -4,6 +4,7 @@ import com.example.demo.entities.Club;
 import com.example.demo.entities.FollowRequest;
 import com.example.demo.entities.UserBD;
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repositories.UserBDRepository;
 import com.example.demo.services.ClubService;
 import com.example.demo.services.UserBDService;
 import org.slf4j.Logger;
@@ -30,6 +31,9 @@ public class UserBDController {
     @Autowired
     UserBDService userBDService;
 
+    @Autowired
+    UserBDRepository userBDRepository;
+
     @PostMapping(value = "/follow", headers = {
             "content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void followClub(@RequestBody FollowRequest f) throws IOException {
@@ -45,6 +49,11 @@ public class UserBDController {
     @GetMapping("/findUser/{username}")
     public ResponseEntity<UserBD> findUserByusername(@PathVariable String username) {
         return userBDService.getUserByusername(username);
+    }
+
+    @GetMapping("/getUserById/{idUser}")
+    public UserBD getUserById(@PathVariable("idUser") Long idUser) {
+        return userBDRepository.getById(idUser);
     }
 
     @GetMapping("/findClubOwned/{nameUser}")
@@ -92,6 +101,12 @@ public class UserBDController {
     @GetMapping("/findUserById/{id}")
     public ResponseEntity<UserBD> findUserById(@PathVariable("id") Long idUser) {
         return userBDService.getUserById(idUser);
+    }
+
+    @CrossOrigin("*")
+    @GetMapping("/checkClubFollowed/{idUser}/{nomClub}")
+    public boolean checkClubFollowed(@PathVariable("idUser") Long idUser, @PathVariable("nomClub") String nomClub) {
+        return userBDService.checkClubFollowed(idUser, nomClub);
     }
 
     @CrossOrigin("*")

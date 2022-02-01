@@ -51,6 +51,11 @@ public class PostController {
         return postService.submitPostToDB(body.getDesc(), body.getNameClub(), body.getIdUser(), body.getUserName());
     }
 
+    @PostMapping("/saveComment/")
+    public Comment submitComment(@RequestBody CommentRequest body){
+        return postService.saveComment(body.getIdClub(), body.getIdPost(), body.getIdUser(), body.getText());
+    }
+
     @GetMapping("/getPost")
     public List<Post> retrieveAllPost(){
         List<Post> result=postService.retrivePostFromDB();

@@ -18,15 +18,6 @@ public class CommentService {
     @Autowired
     MembreService membreService;
 
-    public Comment saveComment(Comment comment) {
-        Date date=new Date();
-        long time=date.getTime();
-        Timestamp dateTime=new Timestamp(time);
-
-
-        comment.setTimestamp(dateTime);
-        return commentRepository.save(comment);
-    }
 
     public ArrayList<Comment> getAllComment(Integer postID){
         ArrayList<Comment> result=new ArrayList<Comment>();
