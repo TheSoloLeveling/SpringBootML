@@ -79,6 +79,11 @@ public class PostController {
         return postService.retrievePostsClub(nameClub);
     }
 
+    @GetMapping("/retrievePostClubFollowed/{idClub}")
+    public List<Post> retrievePostClubFollowed(@PathVariable("idClub") Long idUser){
+        return postService.retrievePostClubFollowed(idUser);
+    }
+
 
 
     @GetMapping("/getCommentsSize/{postId}")

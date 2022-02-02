@@ -79,6 +79,11 @@ public class UserBDController {
         return userBDService.findAllClubsFollowed(idUser, field, order);
     }
 
+    @GetMapping("/findClubNotFollowed/{idUser}/{field}/{order}")
+    public List<Club> findClubNotFollowed(@PathVariable Long idUser, @PathVariable String field, @PathVariable boolean order) {
+        return userBDService.findAllClubsNotFollowed(idUser, field, order);
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //DO NOT ENABLE              DO NOT ENABLE            DO NOT ENABLE                    DO NOT ENABLE          DO NOT ENABLE
     @PostMapping(

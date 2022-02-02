@@ -189,12 +189,18 @@ public class PostService {
         for (Club club : c) {
             p.addAll(club.getPosts());
         }
-        /*
-        Collections.sort(myList, new Comparator<MyObject>() {
-            public int compare(MyObject o1, MyObject o2) {
-                return o1.getDateTime().compareTo(o2.getDateTime());
-            }
-        });*/
+
+        p.sort((o1, o2) -> {
+            if (o1.getDateTime() == null || o2.getDateTime() == null)
+                return 0;
+            if(o1.isEvent() && !o2.isEvent())
+                return eventRepository.findByIdPost(o1.getPostID()).getStartDate().compareTo(o2.getDateTime());
+            if (o2.isEvent() && !o1.isEvent())
+                return o1.getDateTime().compareTo(eventRepository.findByIdPost(o2.getPostID()).getStartDate());
+            if (o1.isEvent() && o2.isEvent())
+                return eventRepository.findByIdPost(o1.getPostID()).getStartDate().compareTo(eventRepository.findByIdPost(o2.getPostID()).getStartDate());
+            return o1.getDateTime().compareTo(o2.getDateTime());
+        });
 
         return p;
     }

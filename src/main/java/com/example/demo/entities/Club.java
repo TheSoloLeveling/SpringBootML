@@ -28,14 +28,13 @@ public class Club {
     private String coverImg;
     private String email;
 
-    @Column(name="nbrFollowers ")
-    private Integer nbrFollowers;
+    private int nbrFollowers;
 
-    public void setNbrFollowers(Integer nbrFollowers) {
+    public void setNbrFollowers(int nbrFollowers) {
         this.nbrFollowers = nbrFollowers;
     }
 
-    public Integer getNbrFollowers() {
+    public int getNbrFollowers() {
         return nbrFollowers;
     }
 

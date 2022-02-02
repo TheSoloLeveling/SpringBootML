@@ -78,11 +78,9 @@ public class UserBDService {
 
     public void followClub(String nomClub, Long idUser) {
         Club club = clubService.getClubBynomClub(nomClub).getBody();
-        if (club.getNbrFollowers() == null) {
-            club.setNbrFollowers(1);
-        }
-        else
-            club.setNbrFollowers(club.getNbrFollowers() + 1);
+
+        club.setNbrFollowers(club.getNbrFollowers() + 1);
+
 
         UserBD userBD = getUserById(idUser).getBody();
         Set<ClubFollowed> clubFollowed = userBD.getFollowedTo();
@@ -191,6 +189,16 @@ public class UserBDService {
         if (field.equals("null"))
             return op;
         return op;
+    }
+
+    public List<Club> findAllClubsNotFollowed(Long id, String field, boolean order) {
+
+        List<Club> l = findAllClubsFollowed(id,"dateCre", true);
+        List<Club> op = new ArrayList<>();
+        List<Club> clubs = clubRepository.findAll();
+        l.forEach((i)->clubs.remove(i));
+
+        return clubs;
     }
 
     public List<UserBD> getUsers() {
