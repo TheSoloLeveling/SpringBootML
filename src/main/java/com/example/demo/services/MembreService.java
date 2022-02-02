@@ -98,6 +98,11 @@ public class MembreService {
         return null;
     }
 
+    public boolean checkIsMember(String nameClub, Long idUser) {
+        Club club = clubService.getClubBynomClub(nameClub).getBody();
+        return findMember(idUser, club.getIdClub()) != null;
+    }
+
     public boolean isPresidenOfClub(String nameClub, Long id) {
 
         Membre m = findMember(clubService.getClubBynomClub(nameClub).getBody(), EFonction.PRESIDENT);

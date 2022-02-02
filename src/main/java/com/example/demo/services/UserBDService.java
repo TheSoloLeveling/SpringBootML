@@ -1,5 +1,8 @@
 package com.example.demo.services;
 
+import com.example.demo.Feed.Post;
+import com.example.demo.Feed.PostLiked;
+import com.example.demo.Feed.PostRepository;
 import com.example.demo.bucket.BucketName;
 import com.example.demo.entities.*;
 import com.example.demo.exception.ResourceNotFoundException;
@@ -35,12 +38,43 @@ public class UserBDService {
     @Autowired
     ClubService clubService;
 
+    @Autowired
+    PostRepository postRepository;
+
 
 
     public UserBDService(FileStore fileStore) {
         this.fileStore = fileStore;
     }
 
+
+    public void likePost(Long idUser, Integer idPost) {
+        Post post = postRepository.getById(idPost);
+        post.setLikes(post.getLikes() + 1);
+
+        UserBD userBD = userBDRepository.getById(idUser);
+        Set<PostLiked> postLikeds = userBD.getLikedTo();
+        postLikeds.add(new PostLiked(post.getClubName(), post.getPostID()));
+
+        userBD.setLikedTo(postLikeds);
+
+        postRepository.save(post);
+        userBDRepository.save(userBD);
+    }
+
+    public void unLikePost(Long idUser, Integer idPost) {
+        Post post = postRepository.getById(idPost);
+        post.setLikes(post.getLikes() - 1);
+
+        UserBD userBD = getUserById(idUser).getBody();
+        Set<PostLiked> postLikeds = userBD.getLikedTo();
+        postLikeds.remove(findPostLiked(postLikeds, post.getPostID()));
+
+        userBD.setLikedTo(postLikeds);
+
+        postRepository.save(post);
+        userBDRepository.save(userBD);
+    }
 
     public void followClub(String nomClub, Long idUser) {
         Club club = clubService.getClubBynomClub(nomClub).getBody();
@@ -83,6 +117,23 @@ public class UserBDService {
 
         return findClubFollowed(clubFollowed, club.getIdClub()) != null;
     }
+
+    public boolean checkPostLiked(Long idUser, Integer idPost) {
+        UserBD userBD = userBDRepository.getById(idUser);
+        Post post = postRepository.getById(idPost);
+        Set<PostLiked> postLikeds = userBD.getLikedTo();
+
+        return  findPostLiked(postLikeds, idPost) != null;
+    }
+
+    public PostLiked findPostLiked(Set<PostLiked> postLikeds, Integer idPost) {
+        for(PostLiked s : postLikeds){
+            if (s.getIdPost().equals(idPost))
+                return  s;
+        }
+        return null;
+    }
+
     public ClubFollowed findClubFollowed(Set<ClubFollowed> clubFollowed, Integer idClub) {
         for(ClubFollowed s : clubFollowed){
             System.out.println(s.getIdClubFollowed().longValue());

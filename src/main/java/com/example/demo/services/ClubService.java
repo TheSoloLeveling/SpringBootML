@@ -157,6 +157,7 @@ public class ClubService {
         club.setDescClub(c.getDescClub());
         club.setStatus(false);
         club.setDateCre(dateTime);
+        club.setNbrFollowers(0);
         Set<Membre> m = new HashSet<Membre>();
 
         Long idP = userBDService.getUserByusername(president.getNameUser()).getBody().getId();

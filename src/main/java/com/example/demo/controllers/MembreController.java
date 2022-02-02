@@ -48,6 +48,11 @@ public class MembreController {
         return null;
     }
 
+    @GetMapping("/checkIsMember/{idUser}/{nameClub}")
+    public boolean checkIsMember(@PathVariable("idUser") Long idUser, @PathVariable("nameClub") String nameClub) {
+        return membreService.checkIsMember(nameClub, idUser);
+    }
+
     @GetMapping("/findClubJoined/{idUser}/{field}/{order}")
     public List<Club> findClubFollowed(@PathVariable Long idUser, @PathVariable String field, @PathVariable boolean order) {
         return membreService.findAllClubsJoinedWithFilter(idUser, field, order);

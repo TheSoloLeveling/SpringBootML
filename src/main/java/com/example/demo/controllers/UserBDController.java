@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.Feed.LikeRequest;
 import com.example.demo.entities.Club;
 import com.example.demo.entities.FollowRequest;
 import com.example.demo.entities.UserBD;
@@ -44,6 +45,18 @@ public class UserBDController {
             "content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void unfollowClub(@RequestBody FollowRequest f) throws IOException {
         userBDService.unfollowClub(f.getNomClub(), f.getIdUser());
+    }
+
+    @PostMapping(value = "/like", headers = {
+            "content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void likePost(@RequestBody LikeRequest f) throws IOException {
+        userBDService.likePost(f.getIdUser(), f.getIdPost());
+    }
+
+    @PostMapping(value = "/unlike", headers = {
+            "content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void unLikePost(@RequestBody LikeRequest f) throws IOException {
+        userBDService.unLikePost(f.getIdUser(), f.getIdPost());
     }
 
     @GetMapping("/findUser/{username}")
@@ -107,6 +120,12 @@ public class UserBDController {
     @GetMapping("/checkClubFollowed/{idUser}/{nomClub}")
     public boolean checkClubFollowed(@PathVariable("idUser") Long idUser, @PathVariable("nomClub") String nomClub) {
         return userBDService.checkClubFollowed(idUser, nomClub);
+    }
+
+    @CrossOrigin("*")
+    @GetMapping("/checkPostLiked/{idUser}/{idPost}")
+    public boolean checkPostLiked(@PathVariable("idUser") Long idUser, @PathVariable("idPost") Integer idPost) {
+        return userBDService.checkPostLiked(idUser, idPost);
     }
 
     @CrossOrigin("*")

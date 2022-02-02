@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface EventRepository extends JpaRepository<ClubEvent, Integer> {
 
     ClubEvent findTopByOrderByDateTimeDesc();
+
+    ClubEvent findByIdPost(Integer idPost);
 }

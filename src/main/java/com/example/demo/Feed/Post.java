@@ -33,6 +33,15 @@ public class Post {
 
     private int likes;
     private Timestamp dateTime;
+    private boolean isEvent;
+
+    public boolean isEvent() {
+        return isEvent;
+    }
+
+    public void setEvent(boolean event) {
+        isEvent = event;
+    }
 
     public String getClubName() {
         return clubName;

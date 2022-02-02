@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
 
-import static org.apache.http.entity.ContentType.*;
-
 @Service
 public class EventService {
 
@@ -61,9 +59,14 @@ public class EventService {
         Date date=new Date();
         long time=date.getTime();
         Timestamp dateTime=new Timestamp(time);
-
+        clubEvent.setStatus("Pending");
         clubEvent.setDateTime(dateTime);
         clubEvent.setIdPost(postID);
+
+        Post post = postRepository.getById(postID);
+        post.setEvent(true);
+        postRepository.save(post);
+
         return  eventRepository.save(clubEvent);
 
     }

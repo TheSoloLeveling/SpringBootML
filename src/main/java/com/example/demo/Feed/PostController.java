@@ -46,6 +46,12 @@ public class PostController {
         return  postService.downloadImage(idPost);
     }
 
+    @CrossOrigin("*")
+    @GetMapping(path = "/landing/{idPost}/image/downloadVideoPost")
+    public byte[] downloadVideoPost(@PathVariable("idPost") Integer idPost) {
+        return  postService.downloadVideo(idPost);
+    }
+
     @PostMapping("/save")
     public Post submitPost(@RequestBody PostRequest body){
         return postService.submitPostToDB(body.getDesc(), body.getNameClub(), body.getIdUser(), body.getUserName());
@@ -66,6 +72,11 @@ public class PostController {
     @GetMapping("/getLastPost")
     public Post retrieveLastPost(){
         return postService.getLastPost();
+    }
+
+    @GetMapping("/retrievePostsClub/{nameClub}")
+    public List<Post> retrievePostsClub(@PathVariable("nameClub") String nameClub){
+        return postService.retrievePostsClub(nameClub);
     }
 
 
@@ -90,4 +101,6 @@ public class PostController {
     public ResponseEntity<Post> retrieveAllPost(Integer postID){
         return postService.findPostById(postID);
     }
+
+
 }

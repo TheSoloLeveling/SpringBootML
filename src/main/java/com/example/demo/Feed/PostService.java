@@ -55,6 +55,9 @@ public class PostService {
     @Autowired
     MembreService membreService;
 
+    @Autowired
+    EventRepository eventRepository;
+
     public void uploadImagePost(Integer idPost, MultipartFile file) throws IOException {
         if (file.isEmpty()){
             throw new IllegalStateException("Cannot upload empty file");
@@ -91,7 +94,6 @@ public class PostService {
             throw new IllegalStateException("Cannot upload empty file");
         }
 
-
         //create metadata for the file
         Map<String, String> metadata = new HashMap<>();
         metadata.put("Content-Type", file.getContentType());
@@ -125,6 +127,17 @@ public class PostService {
 
     }
 
+    public byte[] downloadVideo(Integer postID) {
+        if(postID == 0)
+            return null;
+        Post post = findPostById(postID).getBody();
+        String path = String.format("%s/%s", BucketName.CLUB_IMAGE.getBucketName(), post.getIdClub());
+        return post.getPostVideo()
+                .map(key -> fileStore.download(path, key))
+                .orElse(new byte[0]);
+
+    }
+
     public Post getLastPost() {
         return postRepository.findTopByOrderByDateTimeDesc();
     }
@@ -142,6 +155,7 @@ public class PostService {
         body.setComments(new HashSet<Comment>());
         body.setLikes(0);
         body.setDateTime(dateTime);
+        body.setEvent(false);
 
         Club c = clubService.getClubBynomClub(nameClub).getBody();
         Set<Post> p = c.getPosts();
@@ -175,6 +189,12 @@ public class PostService {
         for (Club club : c) {
             p.addAll(club.getPosts());
         }
+        /*
+        Collections.sort(myList, new Comparator<MyObject>() {
+            public int compare(MyObject o1, MyObject o2) {
+                return o1.getDateTime().compareTo(o2.getDateTime());
+            }
+        });*/
 
         return p;
     }
@@ -191,7 +211,8 @@ public class PostService {
         Club club = clubRepository.getById(idClub);
         comment.setNomClub(club.getNomClub());
 
-        UserBD userBD = userBDRepository.getById(idUser);        comment.setUsername(userBD.getUserName());
+        UserBD userBD = userBDRepository.getById(idUser);
+        comment.setUsername(userBD.getUserName());
         comment.setUserIcon(userBD.getIcon().get());
         comment.setUserRole(membreService.findMemberRole(idUser, idClub));
 
@@ -204,17 +225,31 @@ public class PostService {
     }
 
     public List<Post> retrievePostsClub(String nameClub) {
-
+        Set<Post> p = new HashSet<>();
         Club c = clubService.getClubBynomClub(nameClub).getBody();
 
         if (!c.getPosts().isEmpty()) {
-            return new LinkedList<>(c.getPosts());
+            p = c.getPosts();
         }
 
-        return null;
+        List<Post> l = new LinkedList<>(p);
+
+        l.sort((o1, o2) -> {
+            if (o1.getDateTime() == null || o2.getDateTime() == null)
+                return 0;
+            if(o1.isEvent() && !o2.isEvent())
+                return eventRepository.findByIdPost(o1.getPostID()).getStartDate().compareTo(o2.getDateTime());
+            if (o2.isEvent() && !o1.isEvent())
+                return o1.getDateTime().compareTo(eventRepository.findByIdPost(o2.getPostID()).getStartDate());
+            if (o1.isEvent() && o2.isEvent())
+                return eventRepository.findByIdPost(o1.getPostID()).getStartDate().compareTo(eventRepository.findByIdPost(o2.getPostID()).getStartDate());
+            return o1.getDateTime().compareTo(o2.getDateTime());
+        });
+
+        return l;
     }
 
-    public List<Post> deletePostFromDB(Integer postID) {
+        public List<Post> deletePostFromDB(Integer postID) {
         postRepository.deleteById(postID);
 
         List<Post> result=retrivePostFromDB();

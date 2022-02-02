@@ -1,11 +1,10 @@
 package com.example.demo.entities;
 
-import org.hibernate.annotations.GenericGenerator;
+import com.example.demo.Feed.PostLiked;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -70,6 +69,18 @@ public class UserBD {
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name="id", referencedColumnName = "id")
     private Set<ClubFollowed> followedTo;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name="id", referencedColumnName = "id")
+    private Set<PostLiked> LikedTo;
+
+    public Set<PostLiked> getLikedTo() {
+        return LikedTo;
+    }
+
+    public void setLikedTo(Set<PostLiked> likedTo) {
+        LikedTo = likedTo;
+    }
 
     public void setFollowedTo(Set<ClubFollowed> followedTo) {
         this.followedTo = followedTo;
