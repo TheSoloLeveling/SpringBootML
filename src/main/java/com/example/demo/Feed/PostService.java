@@ -220,8 +220,10 @@ public class PostService {
         UserBD userBD = userBDRepository.getById(idUser);
         comment.setUsername(userBD.getUserName());
         comment.setUserIcon(userBD.getIcon().get());
-        comment.setUserRole(membreService.findMemberRole(idUser, idClub));
-
+        if(membreService.findMemberRole(idUser, idClub) == null)
+            comment.setUserRole(membreService.findMemberRole(idUser, idClub));
+        else
+            comment.setUserRole("FOLLOWER");
         Post post = postRepository.getById(idPost);
         Set<Comment> c = post.getComments();
         c.add(comment);

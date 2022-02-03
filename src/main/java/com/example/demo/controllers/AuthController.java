@@ -65,15 +65,20 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
+        boolean isEnabled = userRepository.findByuserName(loginRequest.getUsername()).get().isEnabled();
+        boolean nonLocked = userRepository.findByuserName(loginRequest.getUsername()).get().isAccountNonLocked();
         String email = userRepository.findByuserName(loginRequest.getUsername()).get().getEmail();
         String password = userRepository.findByuserName(loginRequest.getUsername()).get().getPassword();
-
+        if(!userRepository.findByuserName(loginRequest.getUsername()).get().isEnabled())
+            return null;
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 roles,
                 password,
-                email));
+                email,
+                nonLocked,
+                isEnabled));
     }
 
     @PostMapping("/signup")
@@ -86,49 +91,56 @@ public class AuthController {
         System.out.println("Request username : " + signUpRequest.getUsername());
         System.out.println("Request password: " + signUpRequest.getPassword());
         System.out.println("Request role: " + signUpRequest.getUserRole());
+        System.out.println("Request email: " + signUpRequest.getEmail());
 
         Set<Role> roles = new HashSet<>();
 
         //ROLE_USER_INTERNAL,
         //    ROLE_USER_EXTERNAL,
         //    ROLE_ADMIN
-        if (signUpRequest.getUserRole() == null){
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER_EXTERNAL)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
-        }
-        else {
-            switch (signUpRequest.getUserRole()) {
-                case "Etudiant exterieur": {
-                    Role userRole = roleRepository.findByName(ERole.ROLE_USER_EXTERNAL)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(userRole);
-                    break;
-                }
-                case "Etudiant UIR": {
-                    Role userRole = roleRepository.findByName(ERole.ROLE_USER_INTERNAL)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(userRole);
-                    break;
-                }
-                case "Administrateur": {
-                    Role userRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(userRole);
-                    break;
-                }
-                default: {
-                    Role userRole = roleRepository.findByName(ERole.ROLE_USER_EXTERNAL)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(userRole);
-                }
+
+
+        switch (signUpRequest.getUserRole()) {
+            case "Etudiant exterieur": {
+                Role userRole = roleRepository.findByName(ERole.ROLE_USER_EXTERNAL)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
+                break;
+            }
+            case "Etudiant UIR": {
+                Role userRole = roleRepository.findByName(ERole.ROLE_USER_INTERNAL)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
+                break;
+            }
+            case "Administrateur": {
+                Role userRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
+                break;
+            }
+            default: {
+                Role userRole = roleRepository.findByName(ERole.ROLE_USER_EXTERNAL)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
             }
         }
+
 
         // Create new user's account
         UserBD user = new UserBD(signUpRequest.getUsername(),
                 roles,
-                signUpRequest.getPassword());
+                signUpRequest.getPassword(),
+                signUpRequest.getEmail());
+        if(roles.contains(roleRepository.findByName(ERole.ROLE_ADMIN).orElseThrow(() -> new RuntimeException("Error: Role is not found."))))
+            user.setEnabled(false);
+        else
+            user.setEnabled(true);
+
+        if(roles.contains(roleRepository.findByName(ERole.ROLE_USER_INTERNAL).orElseThrow(() -> new RuntimeException("Error: Role is not found."))))
+            user.setAccountNonLocked(false);
+        else
+            user.setAccountNonLocked(true);
 
         userRepository.save(user);
 

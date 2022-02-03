@@ -165,6 +165,33 @@ public class MembreService {
         return null;
     }
 
+    public Membre findMemberInClub(String nameCLub,String fonction) {
+
+        EFonction e = null;
+        if (fonction.equals("president"))
+            e = EFonction.PRESIDENT;
+        if (fonction.equals("vicepresident"))
+            e = EFonction.VICEPRESIDENT;
+        if (fonction.equals("secretaire"))
+            e = EFonction.SECRETARY;
+        if (fonction.equals("tresorier"))
+            e = EFonction.TREASURER;
+        Club c = clubService.getClubBynomClub(nameCLub).getBody();
+        Set<Membre> membres = c.getMembres();
+
+        for (Membre membre : membres) {
+            Set<Fonctionnalite> fonctionnalites = membre.getFonctionnalites();
+            for (Fonctionnalite fonctionnalite : fonctionnalites) {
+                if (fonctionnalite.getName().equals(e)){
+                    System.out.println("Member with function : " + e.name() +" is found");
+                    return membre;
+                }
+            }
+        }
+        System.out.println(" Error: Member with function : " + e.name() + " not found");
+        return null;
+    }
+
     public boolean checkIsMember(String nameClub, Long idUser) {
         Club club = clubService.getClubBynomClub(nameClub).getBody();
         return findMember(idUser, club.getIdClub()) != null;

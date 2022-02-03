@@ -12,6 +12,25 @@ public class JwtResponse {
     private String name;
     private String email;
     private String password;
+    private boolean nonLocked;
+
+    private boolean isEnabled;
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    public boolean getNonLocked() {
+        return nonLocked;
+    }
+
+    public void setNonLocked(boolean nonLocked) {
+        this.nonLocked = nonLocked;
+    }
 
     public String getPassword() {
         return password;
@@ -37,13 +56,15 @@ public class JwtResponse {
         return email;
     }
 
-    public JwtResponse(String accessToken, Long id, String username, List<String> roles, String password, String email) {
+    public JwtResponse(String accessToken, Long id, String username, List<String> roles, String password, String email, boolean nonLocked, boolean isEnabled) {
         this.token = accessToken;
         this.id = id;
         this.username = username;
         this.roles = roles;
         this.email = email;
         this.password = password;
+        this.nonLocked = nonLocked;
+        this.isEnabled = isEnabled;
     }
 
     public String getIcon() {

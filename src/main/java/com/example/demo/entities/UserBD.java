@@ -74,6 +74,14 @@ public class UserBD {
     @JoinColumn(name="id", referencedColumnName = "id")
     private Set<PostLiked> LikedTo;
 
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
     public Set<PostLiked> getLikedTo() {
         return LikedTo;
     }
@@ -93,25 +101,17 @@ public class UserBD {
     public UserBD() {
     }
 
-    public UserBD(String userName, Set<Role> roles, String password, String icon) {
-        this.userName = userName;
-        this.password = password;
-        this.roles = roles;
-        this.icon = icon;
-    }
-
     public UserBD(String userName, Set<Role> roles, String password) {
         this.userName = userName;
         this.password = password;
         this.roles = roles;
     }
 
-    public boolean isIsAccountNonLocked() {
-        return isAccountNonLocked;
-    }
-
-    public boolean isIsAccountNonExpired() {
-        return isAccountNonExpired;
+    public UserBD(String userName, Set<Role> roles, String password, String email) {
+        this.userName = userName;
+        this.password = password;
+        this.roles = roles;
+        this.email = email;
     }
 
     public boolean isCredentialsNonExpired() {
@@ -130,9 +130,6 @@ public class UserBD {
         return password;
     }
 
-    public boolean isIsEnabled() {
-        return isEnabled;
-    }
 
     public Set<Role> getRoles() {
         return roles;
@@ -142,8 +139,8 @@ public class UserBD {
         this.roles = roles;
     }
 
-    public void setEnabled(boolean enabled) {
-        isEnabled = enabled;
+    public boolean isAccountNonLocked() {
+        return isAccountNonLocked;
     }
 
     public void setAccountNonLocked(boolean accountNonLocked) {
@@ -154,13 +151,6 @@ public class UserBD {
         isAccountNonExpired = accountNonExpired;
     }
 
-    public boolean isEnabled() {
-        return isEnabled;
-    }
-
-    public boolean isAccountNonLocked() {
-        return isAccountNonLocked;
-    }
 
     public boolean isAccountNonExpired() {
         return isAccountNonExpired;
@@ -178,13 +168,7 @@ public class UserBD {
         this.password = password;
     }
 
-    public void setIsEnabled(boolean active) {
-        this.isEnabled = active;
-    }
 
-    public void setIsAccountNonLocked(boolean locked) {
-        this.isAccountNonLocked = locked;
-    }
 
     public void setIsAccountNonExpired(boolean expired) {
         this.isAccountNonExpired = expired;

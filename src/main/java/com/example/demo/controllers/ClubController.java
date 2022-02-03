@@ -68,9 +68,9 @@ public class ClubController {
     }
 
     @CrossOrigin("*")
-    @GetMapping("/findClubByName")
-    public ResponseEntity<Club> findClubBynomClub(@RequestParam(required=false) String nomClub) {
-        return clubService.getClubBynomClub(nomClub);
+    @GetMapping("/findClubByName/{nameClub}")
+    public Club findClubByNomClub(@PathVariable("nameClub") String nomClub) {
+        return clubService.getClubBynomClub(nomClub).getBody();
     }
 
     @PutMapping("/updateClub/{id}")

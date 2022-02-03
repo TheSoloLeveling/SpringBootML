@@ -100,5 +100,9 @@ public class MembreController {
     }
 
 
+    @GetMapping("/findMemberInClub/{nameClub}/{f}")
+    public Membre findMemberInClub(@PathVariable String nameClub, @PathVariable String f) {
+        return membreService.findMemberInClub(nameClub, f);
+    }
 
 }
