@@ -7,9 +7,8 @@ import com.example.demo.bucket.BucketName;
 import com.example.demo.entities.*;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.filestore.FileStore;
-import com.example.demo.repositories.ClubRepository;
-import com.example.demo.repositories.MembreRepository;
-import com.example.demo.repositories.UserBDRepository;
+import com.example.demo.repositories.*;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -41,6 +40,11 @@ public class UserBDService {
     @Autowired
     PostRepository postRepository;
 
+    @Autowired
+    ClubFollowedRepository clubFollowedRepository;
+
+    @Autowired
+    PostLikedRepository postLikedRepository;
 
 
     public UserBDService(FileStore fileStore) {
@@ -69,7 +73,7 @@ public class UserBDService {
         UserBD userBD = getUserById(idUser).getBody();
         Set<PostLiked> postLikeds = userBD.getLikedTo();
         postLikeds.remove(findPostLiked(postLikeds, post.getPostID()));
-
+        postLikedRepository.delete(findPostLiked(postLikeds, post.getPostID()));
         userBD.setLikedTo(postLikeds);
 
         postRepository.save(post);
@@ -101,7 +105,7 @@ public class UserBDService {
         UserBD userBD = getUserById(idUser).getBody();
         Set<ClubFollowed> clubFollowed = userBD.getFollowedTo();
         clubFollowed.remove(findClubFollowed(clubFollowed, club.getIdClub()));
-
+        clubFollowedRepository.delete(findClubFollowed(clubFollowed, club.getIdClub()));
         userBD.setFollowedTo(clubFollowed);
         System.out.println("unfollow : " + clubFollowed);
         clubRepository.save(club);

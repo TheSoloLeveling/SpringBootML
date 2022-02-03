@@ -36,6 +36,7 @@ public class MembreService {
     private FonctionnaliteRepository fonctionnaliteRepository;
 
 
+
     public void submitMetaDataOfUser(String nom, String filiere, int anneeE
                                        , String email, String nameUser, String raison,
                                        String nomClub) {
@@ -81,6 +82,72 @@ public class MembreService {
 
     }
 
+    public List<Membre> findAllEMembersOfClub(String nameClub){
+
+        List<Membre> eMembres = new LinkedList<>();
+        Club club = clubRepository.findByNomClub(nameClub).get();
+        Set<Membre> membres = club.getMembres();
+        for (Membre m : membres){
+            for (Fonctionnalite fonctionnalite : m.getFonctionnalites()){
+                if(fonctionnalite.getName().equals(EFonction.PRESIDENT) ||
+                        fonctionnalite.getName().equals(EFonction.VICEPRESIDENT) ||
+                        fonctionnalite.getName().equals(EFonction.SECRETARY) ||
+                        fonctionnalite.getName().equals(EFonction.TREASURER))
+                {eMembres.add(m); break;}
+            }
+        }
+
+        return eMembres;
+    }
+
+    public List<Membre> findAllAMembersOfClub(String nameClub){
+
+        List<Membre> eMembres = new LinkedList<>();
+        Club club = clubRepository.findByNomClub(nameClub).get();
+        Set<Membre> membres = club.getMembres();
+        for (Membre m : membres){
+            for (Fonctionnalite fonctionnalite : m.getFonctionnalites()){
+                if(fonctionnalite.getName().equals(EFonction.MEMBER))
+                {eMembres.add(m); break;}
+            }
+        }
+
+        return eMembres;
+    }
+
+    public List<Membre> findAllPMembersOfClub(String nameClub){
+
+        List<Membre> eMembres = new LinkedList<>();
+        Club club = clubRepository.findByNomClub(nameClub).get();
+        Set<Membre> membres = club.getMembres();
+        for (Membre m : membres){
+            if(!m.isStatus())
+            {eMembres.add(m); break;}
+        }
+        return eMembres;
+    }
+
+    public Membre acceptMembre(Integer idMembre){
+
+        Membre membre = membreRepository.getById(idMembre);
+        membre.setStatus(true);
+        membreRepository.save(membre);
+        return membre;
+    }
+
+    public void deleteMembre(Integer idMembre){
+
+        Membre membre = membreRepository.getById(idMembre);
+        Club club = clubRepository.getById(membre.getIdClub());
+        Set<Membre> membres = club.getMembres();
+        membres.remove(membre);
+        club.setMembres(membres);
+        membreRepository.delete(membre);
+        List<Fonctionnalite> l = new LinkedList<>(membre.getFonctionnalites());
+        fonctionnaliteRepository.save(new Fonctionnalite(l.get(0).getName()));
+        clubRepository.save(club);
+    }
+
     public Membre findMember(Club c, EFonction e) {
 
         Set<Membre> membres = c.getMembres();
@@ -88,7 +155,7 @@ public class MembreService {
         for (Membre membre : membres) {
             Set<Fonctionnalite> fonctionnalites = membre.getFonctionnalites();
                 for (Fonctionnalite fonctionnalite : fonctionnalites) {
-                    if (fonctionnalite.getIdFonct() == 1){
+                    if (fonctionnalite.getName().equals(e)){
                         System.out.println("Member with function : " + e.name() +" is found");
                         return membre;
                     }
@@ -123,6 +190,7 @@ public class MembreService {
                     tresorier.getIdUser().equals(id) || secretaire.getIdUser().equals(id);
         return false;
     }
+
 
     public List<Club> findAllClubsJoinedWithFilter(Long id, String field, boolean order) {
 

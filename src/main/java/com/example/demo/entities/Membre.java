@@ -47,6 +47,7 @@ public class Membre {
                 '}';
     }
 
+
     public Integer getIdClub() {
         return idClub;
     }

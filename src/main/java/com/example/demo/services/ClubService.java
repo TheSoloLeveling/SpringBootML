@@ -146,8 +146,6 @@ public class ClubService {
             return clubRepository.findAll(Sort.by(Sort.Direction.DESC, field));
     }
 
-
-
     public Club createClub(Club c,Referent referent, Membre president, Membre vicePresident, Membre tresorier, Membre secretaire) throws IOException {
         Date date=new Date();
         long time=date.getTime();

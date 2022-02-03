@@ -33,6 +33,7 @@ public class MembreController {
                 r.getEmail(), r.getNameUser(), r.getRaison(), r.getNomClub());
     }
 
+
     @GetMapping("/getUserDetails")
     public ArrayList<Membre> getAllUserDetails() {
         return membreService.retrieveAllUserDetails();
@@ -41,6 +42,31 @@ public class MembreController {
     @GetMapping("/getAllUsers/{idMembre}")
     public Optional<Membre> getUserDetail(@PathVariable("idMembre") Integer userID) {
         return membreService.getUserData(userID);
+    }
+
+    @GetMapping("/findAllEMembersOfClub/{nameClub}")
+    public List<Membre> findAllEMembersOfClub(@PathVariable("nameClub") String nameClub) {
+        return membreService.findAllEMembersOfClub(nameClub);
+    }
+
+    @GetMapping("/findAllPMembersOfClub/{nameClub}")
+    public List<Membre> findAllPMembersOfClub(@PathVariable("nameClub") String nameClub) {
+        return membreService.findAllPMembersOfClub(nameClub);
+    }
+
+    @GetMapping("/acceptMembre/{idMembre}")
+    public Membre acceptMembre(@PathVariable("idMembre") Integer idMembre) {
+        return membreService.acceptMembre(idMembre);
+    }
+
+    @DeleteMapping("/delete/{idMembre}")
+    public void delete(@PathVariable("idMembre") Integer idMembre) {
+        membreService.deleteMembre(idMembre);
+    }
+
+    @GetMapping("/findAllAMembersOfClub/{nameClub}")
+    public List<Membre> findAllAMembersOfClub(@PathVariable("nameClub") String nameClub) {
+        return membreService.findAllAMembersOfClub(nameClub);
     }
 
     @GetMapping("/test/{idClub}")
