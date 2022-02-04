@@ -1,6 +1,7 @@
 package com.example.demo.entities;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -14,8 +15,15 @@ public class Referent {
     private Long idUser;
     private String nameUser;
     private String filiere;
+    private Timestamp dateTime;
 
+    public Timestamp getDateTime() {
+        return dateTime;
+    }
 
+    public void setDateTime(Timestamp dateTime) {
+        this.dateTime = dateTime;
+    }
 
     public void setIdRef(Integer idRef) {
         this.idRef = idRef;

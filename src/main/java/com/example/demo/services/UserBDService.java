@@ -105,7 +105,7 @@ public class UserBDService {
         UserBD userBD = getUserById(idUser).getBody();
         Set<ClubFollowed> clubFollowed = userBD.getFollowedTo();
         clubFollowed.remove(findClubFollowed(clubFollowed, club.getIdClub()));
-        clubFollowedRepository.delete(findClubFollowed(clubFollowed, club.getIdClub()));
+
         userBD.setFollowedTo(clubFollowed);
         System.out.println("unfollow : " + clubFollowed);
         clubRepository.save(club);
@@ -138,7 +138,7 @@ public class UserBDService {
 
     public ClubFollowed findClubFollowed(Set<ClubFollowed> clubFollowed, Integer idClub) {
         for(ClubFollowed s : clubFollowed){
-            System.out.println(s.getIdClubFollowed().longValue());
+
             if (s.getIdClub().equals(idClub))
                 return  s;
         }
@@ -207,6 +207,20 @@ public class UserBDService {
 
     public List<UserBD> getUsers() {
         return userBDRepository.findAll();
+    }
+
+    public String getUserLogo(Long idUser){
+        UserBD userBD = userBDRepository.getById(idUser);
+        if(userBD.getIcon().isPresent())
+            return userBD.getIcon().get();
+        return null;
+    }
+
+    public String getUserCover(Long idUser){
+        UserBD userBD = userBDRepository.getById(idUser);
+        if(userBD.getCover().isPresent())
+            return userBD.getCover().get();
+        return null;
     }
 
     public byte[] downloadImageCover(Long idUser) {

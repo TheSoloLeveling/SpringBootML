@@ -55,6 +55,15 @@ public class ClubController {
     }
 
     @CrossOrigin("*")
+    @PutMapping(value = "/update", headers = {
+            "content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Club updateClub(@RequestBody RequestUpdateClub r) throws IOException {
+        System.out.println(r);
+        System.out.println(r.toString());
+        return clubService.updateClub(r.getClubRequest(), r.getReferentRequest(), r.getPresidentRequest(), r.getVicePresidentRequest(), r.getTresorierRequest(), r.getSecretaireRequest(), r.getNameClub()); //clubService.createClub(club)
+    }
+
+    @CrossOrigin("*")
     @GetMapping("/findClubById/{id}")
     public ResponseEntity<Club> findClubById(@PathVariable("id") Integer idClub) {
         return clubService.getClubById(idClub);
@@ -71,13 +80,6 @@ public class ClubController {
     @GetMapping("/findClubByName/{nameClub}")
     public Club findClubByNomClub(@PathVariable("nameClub") String nomClub) {
         return clubService.getClubBynomClub(nomClub).getBody();
-    }
-
-    @PutMapping("/updateClub/{id}")
-    public ResponseEntity<Club> updateClub(@PathVariable("id") Integer idClub,
-                                           @Validated @RequestBody Club c)
-            throws ResourceNotFoundException {
-        return clubService.updateClub(idClub, c);
     }
 
     @DeleteMapping("deleteClub/{id}")

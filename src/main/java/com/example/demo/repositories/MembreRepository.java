@@ -21,5 +21,6 @@ public interface MembreRepository extends JpaRepository<Membre, Integer> {
     List<Membre> findAllByIdUser(Long id);
 
     Membre findByIdClubAndIdUser(Integer idClub, Long id);
+    Membre findByIdClubAndNameUser(Integer idClub, String nameUser);
 
 }

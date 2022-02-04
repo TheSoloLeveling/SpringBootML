@@ -64,10 +64,12 @@ public class MembreService {
         fonctionsM.add(fonctionnaliteT);
         membre.setFonctionnalites(fonctionsM);
 
-        emailService.sendEmail(
-                findMember(club, EFonction.PRESIDENT).getEmail(),
-               "New Member to your club",
-               membre.toString() + " \n Reason of joinning the club : \n" + raison);
+        if(findMember(club, EFonction.PRESIDENT) != null){
+            emailService.sendEmail(
+                    findMember(club, EFonction.PRESIDENT).getEmail(),
+                    "New Member to your club",
+                    membre.toString() + " \n Reason of joinning the club : \n" + raison);
+        }
 
         emailService.sendEmail(
                 email,
@@ -139,12 +141,14 @@ public class MembreService {
 
         Membre membre = membreRepository.getById(idMembre);
         Club club = clubRepository.getById(membre.getIdClub());
+        Set<Fonctionnalite> f = membre.getFonctionnalites();
+        f.clear();
         Set<Membre> membres = club.getMembres();
         membres.remove(membre);
         club.setMembres(membres);
+        membre.setFonctionnalites(f);
         membreRepository.delete(membre);
-        List<Fonctionnalite> l = new LinkedList<>(membre.getFonctionnalites());
-        fonctionnaliteRepository.save(new Fonctionnalite(l.get(0).getName()));
+
         clubRepository.save(club);
     }
 
@@ -192,9 +196,12 @@ public class MembreService {
         return null;
     }
 
-    public boolean checkIsMember(String nameClub, Long idUser) {
+    public Membre checkIsMember(String nameClub, Long idUser) {
         Club club = clubService.getClubBynomClub(nameClub).getBody();
-        return findMember(idUser, club.getIdClub()) != null;
+        if(findMember(idUser, club.getIdClub()) != null)
+            return findMember(idUser, club.getIdClub());
+        else
+            return null;
     }
 
     public boolean isPresidenOfClub(String nameClub, Long id) {
@@ -246,6 +253,9 @@ public class MembreService {
 
     public Membre findMember(Long idUser, Integer idClub) {
         return membreRepository.findByIdClubAndIdUser(idClub, idUser);
+    }
+    public Membre findMember(String nameUser, Integer idClub) {
+        return membreRepository.findByIdClubAndNameUser(idClub, nameUser);
     }
     public String findMemberRole(Long idUser, Integer idClub) {
         Membre m = findMember(idUser, idClub);

@@ -9,6 +9,8 @@ import com.example.demo.filestore.FileStore;
 import com.example.demo.bucket.BucketName;
 import com.example.demo.repositories.ClubRepository;
 import com.example.demo.repositories.FonctionnaliteRepository;
+import com.example.demo.repositories.MembreRepository;
+import com.example.demo.repositories.ReferentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,9 @@ public class ClubService {
     ClubRepository clubRepository;
 
     @Autowired
+    ReferentRepository referentRepository;
+
+    @Autowired
     FonctionnaliteRepository fonctionnaliteRepository;
 
     @Autowired
@@ -43,6 +48,12 @@ public class ClubService {
 
     @Autowired
     PostRepository postRepository;
+
+    @Autowired
+    MembreRepository membreRepository;
+
+    @Autowired
+    MembreService membreService;
 
     public void uploadImageLogo(Integer idClub, MultipartFile file) throws IOException {
         if (file.isEmpty()){
@@ -207,6 +218,8 @@ public class ClubService {
         m.add(vicePresident);
         m.add(tresorier);
         m.add(secretaire);
+
+        referent.setDateTime(dateTime);
         club.setReferent(referent);
         club.setMembres(m);
 
@@ -231,23 +244,55 @@ public class ClubService {
         return ResponseEntity.ok().body(club);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Club> updateClub(@PathVariable("id") Integer idClub,
-                                           @Validated @RequestBody Club c) {
+    public Club updateClub(Club c,Referent referent, Membre president, Membre vicePresident, Membre tresorier, Membre secretaire, String nameClub) {
 
-        Club club = clubRepository.findByIdClub(idClub)
-                .orElseThrow( () -> new ResourceNotFoundException("Club with id " + idClub + " not found"));
+        Club club = clubRepository.findByNomClub(nameClub)
+                .orElseThrow( () -> new ResourceNotFoundException("Club with id " + nameClub + " not found"));
 
-        club.setLogo(c.getLogo().orElse(null));
+        Membre p = membreService.findMember(president.getNameUser(), club.getIdClub());
+        p.setNom(president.getNom());
+        p.setFiliere(president.getFiliere());
+        p.setEmail(president.getEmail());
+        p.setAnneeE(president.getAnneeE());
+        p.setNameUser(president.getNameUser());
+
+        Membre v = membreService.findMember(vicePresident.getNameUser(), club.getIdClub());
+        v.setNom(vicePresident.getNom());
+        v.setFiliere(vicePresident.getFiliere());
+        v.setEmail(vicePresident.getEmail());
+        v.setAnneeE(vicePresident.getAnneeE());
+        v.setNameUser(vicePresident.getNameUser());
+
+        Membre s = membreService.findMember(secretaire.getNameUser(), club.getIdClub());
+        s.setNom(secretaire.getNom());
+        s.setFiliere(secretaire.getFiliere());
+        s.setEmail(secretaire.getEmail());
+        s.setAnneeE(secretaire.getAnneeE());
+        s.setNameUser(secretaire.getNameUser());
+
+        Membre t = membreService.findMember(tresorier.getNameUser(), club.getIdClub());
+        t.setNom(tresorier.getNom());
+        t.setFiliere(tresorier.getFiliere());
+        t.setEmail(tresorier.getEmail());
+        t.setAnneeE(tresorier.getAnneeE());
+        t.setNameUser(tresorier.getNameUser());
+
+        Referent r = club.getReferent();
+        r.setNom(referent.getNom());
+        r.setEmail(referent.getEmail());
+        r.setFiliere(referent.getFiliere());
+        r.setNameUser(referent.getNameUser());
+
+        membreRepository.save(p);
+        membreRepository.save(s);
+        membreRepository.save(t);
+        membreRepository.save(v);
+        referentRepository.save(r);
+
         club.setNomClub(c.getNomClub());
         club.setDescClub(c.getDescClub());
-        club.setDateCre(c.getDateCre());
-        club.setCoverImg(c.getCoverImg().orElse(null));
-        club.setMembres(c.getMembres());
-        club.setReferent(c.getReferent());
-        club.setStatus(c.isStatus());
 
-        return ResponseEntity.ok().body(clubRepository.save(club));
+        return clubRepository.save(club);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

@@ -52,7 +52,7 @@ public class Club {
     private Referent referent;
 
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name="club_id", referencedColumnName = "idClub")
     private Set<Membre> membres;
 

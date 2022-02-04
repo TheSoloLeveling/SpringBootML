@@ -122,6 +122,18 @@ public class UserBDController {
     }
 
     @CrossOrigin("*")
+    @GetMapping("/getUserCover/{id}")
+    public String getUserCover(@PathVariable("id") Long idUser) {
+        return userBDService.getUserCover(idUser);
+    }
+
+    @CrossOrigin("*")
+    @GetMapping("/getUserLogo/{id}")
+    public String getUserLogo(@PathVariable("id") Long idUser) {
+        return userBDService.getUserLogo(idUser);
+    }
+
+    @CrossOrigin("*")
     @GetMapping("/checkClubFollowed/{idUser}/{nomClub}")
     public boolean checkClubFollowed(@PathVariable("idUser") Long idUser, @PathVariable("nomClub") String nomClub) {
         return userBDService.checkClubFollowed(idUser, nomClub);

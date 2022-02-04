@@ -75,7 +75,7 @@ public class MembreController {
     }
 
     @GetMapping("/checkIsMember/{idUser}/{nameClub}")
-    public boolean checkIsMember(@PathVariable("idUser") Long idUser, @PathVariable("nameClub") String nameClub) {
+    public Membre checkIsMember(@PathVariable("idUser") Long idUser, @PathVariable("nameClub") String nameClub) {
         return membreService.checkIsMember(nameClub, idUser);
     }
 
