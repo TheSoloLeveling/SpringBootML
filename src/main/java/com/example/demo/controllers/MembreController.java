@@ -89,6 +89,11 @@ public class MembreController {
         return membreService.isPresidenOfClub(nameClub, idUser);
     }
 
+    @GetMapping("/President/{nameClub}/{idUser}")
+    public Membre PresidentOfClub(@PathVariable String nameClub, @PathVariable Long idUser) {
+        return membreService.PresidenOfClub(nameClub, idUser);
+    }
+
     @GetMapping("/checkEMember/{nameClub}/{idUser}")
     public boolean checkEMember(@PathVariable String nameClub, @PathVariable Long idUser) {
         return membreService.isEMember(nameClub, idUser);

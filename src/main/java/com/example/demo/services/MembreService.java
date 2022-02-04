@@ -212,6 +212,15 @@ public class MembreService {
         return false;
     }
 
+    public Membre PresidenOfClub(String nameClub, Long id) {
+
+        Membre m = findMember(clubService.getClubBynomClub(nameClub).getBody(), EFonction.PRESIDENT);
+        if(m != null)
+            if (m.getIdUser().equals(id))
+                return m;
+        return null;
+    }
+
     public boolean isEMember(String nameClub, Long id) {
 
         Membre president = findMember(clubService.getClubBynomClub(nameClub).getBody(), EFonction.PRESIDENT);
